@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import CodeSlash from './tools/CodeSlash';
 import { 
   Code2, 
-  Terminal, 
   Zap, 
   Settings,
   Plus,
   ArrowRight,
-  LayoutGrid
+  ArrowUpRight,
+  Github,
+  Monitor,
+  Layout
 } from 'lucide-react';
 
 type ToolType = 'dashboard' | 'codeslash';
@@ -20,140 +22,127 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] font-sans selection:bg-blue-600 selection:text-white">
-      {/* Premium Navbar */}
-      <nav className="sticky top-0 bg-white/80 backdrop-blur-md border-b border-slate-200 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-4 group cursor-default">
-            <div className="w-12 h-12 bg-[#0F172A] rounded-ui flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-              <Zap className="w-6 h-6 text-white fill-white" />
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-600/10 selection:text-blue-600 antialiased">
+      {/* Background Decor */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[5%] left-[-5%] w-[400px] h-[400px] bg-purple-100/30 rounded-full blur-[100px]" />
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] brightness-100 contrast-150" />
+      </div>
+
+      {/* Modern Navbar */}
+      <nav className="sticky top-0 bg-white/70 backdrop-blur-xl border-b border-slate-200/60 z-50">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-3 group cursor-pointer" onClick={() => setCurrentTool('dashboard')}>
+            <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center shadow-lg shadow-slate-900/10 group-hover:scale-105 transition-all">
+              <Zap className="w-5 h-5 text-white fill-white" />
             </div>
-            <div>
-              <h1 className="text-2xl font-black tracking-tight leading-none mb-1">ZeroBricks</h1>
-              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Premium Dev Toolbox</p>
-            </div>
+            <h1 className="text-xl font-black tracking-tight leading-none text-slate-900">ZeroBricks</h1>
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-wider text-slate-500 mr-6">
-              <a href="#" className="hover:text-black transition-colors">Tools</a>
-              <a href="#" className="hover:text-black transition-colors">Community</a>
-              <a href="#" className="hover:text-black transition-colors">Github</a>
-            </div>
-            <button className="p-2.5 bg-white border border-slate-200 rounded-ui hover:bg-slate-50 transition-all shadow-sm">
-              <Settings className="w-5 h-5 text-slate-600" />
+          <div className="flex items-center gap-3">
+            <a 
+              href="https://github.com/zerorapid/zerobricks" 
+              target="_blank" 
+              rel="noreferrer"
+              className="hidden sm:flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors"
+            >
+              <Github className="w-4 h-4" /> Source
+            </a>
+            <button className="p-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all shadow-sm">
+              <Settings className="w-4 h-4 text-slate-500" />
             </button>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <header className="max-w-7xl mx-auto px-6 py-24 relative overflow-hidden">
-        <div className="max-w-3xl relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-slate-200 rounded-full text-[10px] font-bold uppercase tracking-widest mb-10 shadow-sm text-blue-600">
-            <span className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></span> v1.0 Production
+      {/* Refined Hero */}
+      <main className="max-w-7xl mx-auto px-6 pt-20 pb-32 relative z-10">
+        <section className="max-w-4xl mb-24">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-blue-100 rounded-full text-[10px] font-bold uppercase tracking-widest mb-8 shadow-sm text-blue-600">
+            <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></span> Open Source ToolSuite
           </div>
-          <h2 className="text-6xl md:text-8xl font-black tracking-tight leading-[0.9] mb-8 text-[#0F172A]">
-            Elevate Your <br />
-            <span className="text-slate-400 italic">Workflow.</span>
+          <h2 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.95] mb-8 text-slate-900">
+            Universal Tools <br />
+            <span className="text-slate-300">Zero Complexity.</span>
           </h2>
-          <p className="text-xl text-slate-600 font-medium leading-relaxed max-w-xl mb-12">
-            A specialized suite of developer utilities designed for precision and speed. All the tools you need, none of the noise.
+          <p className="text-lg md:text-xl text-slate-500 font-medium leading-relaxed max-w-2xl mb-12">
+            A high-performance collection of developer utilities built for speed. 
+            Lightweight, portable, and refined for the modern web.
           </p>
-          <div className="flex items-center gap-4">
-            <button className="px-8 py-4 bg-[#0F172A] text-white rounded-ui font-bold shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all flex items-center gap-3">
-              Browse Tools <LayoutGrid className="w-5 h-5" />
+          <div className="flex flex-wrap items-center gap-4">
+            <button 
+              onClick={() => document.getElementById('bricks-grid')?.scrollIntoView({ behavior: 'smooth' })}
+              className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold shadow-xl shadow-slate-900/20 hover:shadow-2xl hover:bg-blue-600 hover:scale-[1.02] transition-all flex items-center gap-2 group"
+            >
+              Launch a Brick <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
+            <div className="px-6 py-4 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-slate-400 flex items-center gap-3">
+              <Monitor className="w-4 h-4" /> v1.0 Stable
+            </div>
           </div>
-        </div>
-        
-        {/* Abstract Background Element */}
-        <div className="absolute top-20 -right-20 w-[500px] h-[500px] bg-blue-50 rounded-full blur-3xl opacity-50 z-0" />
-      </header>
+        </section>
 
-      {/* Main Tools Area */}
-      <main className="max-w-7xl mx-auto px-6 pb-32">
-        <div className="flex items-center justify-between mb-12">
-          <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.3em]">Available Bricks</h3>
-          <div className="h-[1px] flex-1 bg-slate-200 mx-8" />
-        </div>
+        {/* Clean Tools Grid */}
+        <section id="bricks-grid">
+          <div className="flex items-center gap-4 mb-10">
+            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.3em] whitespace-nowrap">The Collection</h3>
+            <div className="h-[1px] w-full bg-slate-200/60" />
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <ToolCard 
-            title="CodeSlash"
-            description="Professional live HTML/CSS/JS editor. Instant preview for high-speed UI prototyping."
-            icon={<Code2 className="w-8 h-8" />}
-            badge="POPULAR"
-            onClick={() => setCurrentTool('codeslash')}
-          />
-          
-          <ToolCard 
-            title="Coming Soon"
-            description="We are architecting the next set of bricks. Stay tuned for more powerful tools."
-            icon={<Plus className="w-8 h-8" />}
-            isPlaceholder
-          />
-        </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Active Tool: CodeSlash */}
+            <div 
+              onClick={() => setCurrentTool('codeslash')}
+              className="group bg-white p-8 rounded-[32px] border border-slate-200 hover:border-blue-500/50 hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
+              
+              <div className="w-14 h-14 bg-slate-900 text-white rounded-2xl flex items-center justify-center mb-10 group-hover:bg-blue-600 group-hover:scale-110 transition-all duration-500 shadow-lg shadow-slate-900/10">
+                <Code2 className="w-7 h-7" />
+              </div>
+
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-2xl font-black tracking-tight group-hover:text-blue-600 transition-colors">CodeSlash</h3>
+                  <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-blue-600 transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </div>
+                <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8">
+                  The ultimate prototyping editor. Write HTML/CSS/JS with a live preview and instant export capabilities.
+                </p>
+                <div className="flex items-center gap-4">
+                  <span className="px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-lg border border-blue-100">STABLE</span>
+                  <span className="px-3 py-1 bg-slate-50 text-slate-400 text-[10px] font-bold rounded-lg">V1.0</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Placeholder Tool */}
+            <div className="group bg-white/40 p-8 rounded-[32px] border border-dashed border-slate-300 flex flex-col items-center justify-center text-center opacity-60">
+              <div className="w-14 h-14 bg-slate-100 text-slate-400 rounded-2xl flex items-center justify-center mb-6">
+                <Plus className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-slate-400 mb-2">Next Brick</h3>
+              <p className="text-xs text-slate-400 font-medium max-w-[200px]">
+                Architecting more powerful utilities for your workflow.
+              </p>
+            </div>
+          </div>
+        </section>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-16">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex items-center gap-3">
-            <Zap className="w-5 h-5 text-slate-400" />
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">© 2026 ZeroBricks Toolsuite</span>
+      {/* Simplified Footer */}
+      <footer className="bg-white border-t border-slate-200 py-12 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-3 opacity-40">
+            <Zap className="w-4 h-4" />
+            <span className="text-[10px] font-bold uppercase tracking-widest">ZeroBricks ToolSuite © 2026</span>
           </div>
-          <div className="flex gap-10 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-            <a href="#" className="hover:text-black transition-colors">Documentation</a>
-            <a href="#" className="hover:text-black transition-colors">Privacy</a>
-            <a href="#" className="hover:text-black transition-colors">Changelog</a>
+          <div className="flex items-center gap-8">
+            <a href="https://github.com/zerorapid" className="text-[10px] font-bold text-slate-400 hover:text-slate-900 transition-colors uppercase tracking-widest">Powered by ZeroRapid</a>
           </div>
         </div>
       </footer>
-    </div>
-  );
-}
-
-function ToolCard({ title, description, icon, onClick, badge, isPlaceholder }: any) {
-  return (
-    <div 
-      onClick={!isPlaceholder ? onClick : undefined}
-      className={`group bg-white p-8 rounded-ui border border-slate-200 transition-all duration-300 relative overflow-hidden ${
-        isPlaceholder ? 'opacity-50 cursor-not-allowed' : 'hover:border-blue-500 hover:shadow-2xl hover:-translate-y-2 cursor-pointer'
-      }`}
-    >
-      {/* Decorative background circle */}
-      {!isPlaceholder && (
-        <div className="absolute -top-10 -right-10 w-32 h-32 bg-slate-50 rounded-full group-hover:bg-blue-50 transition-colors z-0" />
-      )}
-
-      <div className={`w-14 h-14 rounded-ui flex items-center justify-center mb-8 relative z-10 transition-colors ${
-        isPlaceholder ? 'bg-slate-100 text-slate-400' : 'bg-slate-900 text-white group-hover:bg-blue-600'
-      }`}>
-        {icon}
-      </div>
-      
-      {badge && (
-        <span className="absolute top-8 right-8 px-2.5 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-full border border-blue-100">
-          {badge}
-        </span>
-      )}
-
-      <div className="relative z-10">
-        <h3 className="text-2xl font-black tracking-tight mb-4 flex items-center justify-between">
-          {title}
-          {!isPlaceholder && <ArrowRight className="w-5 h-5 opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0" />}
-        </h3>
-        <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8">
-          {description}
-        </p>
-        
-        {!isPlaceholder && (
-          <div className="inline-flex items-center gap-2 text-[10px] font-bold text-slate-400 group-hover:text-blue-600 uppercase tracking-widest transition-colors">
-            Launch Instance <Terminal className="w-3 h-3" />
-          </div>
-        )}
-      </div>
     </div>
   );
 }

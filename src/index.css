@@ -3,16 +3,19 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
   body {
-    @apply bg-[#F8FAFC] text-[#0F172A] selection:bg-blue-600/20 selection:text-blue-900 antialiased;
+    @apply bg-slate-50 text-slate-900 selection:bg-blue-600/10 selection:text-blue-600 antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 }
 
 /* Premium Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -23,11 +26,7 @@
   @apply bg-slate-300 rounded-full hover:bg-slate-400 transition-colors;
 }
 
-/* Utility */
+/* Rounded UI Utility */
 .rounded-ui {
   border-radius: 15px;
-}
-
-.font-black {
-  font-weight: 900;
 }
