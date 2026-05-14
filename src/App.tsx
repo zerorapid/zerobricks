@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import CodeSlash from './tools/CodeSlash';
 import SVG2Code from './tools/svg2code/SVG2Code';
 import { DotLottiePlayer } from '@dotlottie/react-player';
@@ -19,16 +20,29 @@ import {
 type ToolType = 'dashboard' | 'codeslash' | 'svg2code';
 
 export default function App() {
-  const [currentTool, setCurrentTool] = useState<ToolType>('dashboard');
+  return (
+    <Router basename="/zerobricks">
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/codeslash" element={<CodeSlashWrapper />} />
+        <Route path="/svg2code" element={<SVG2CodeWrapper />} />
+      </Routes>
+    </Router>
+  );
+}
 
-  if (currentTool === 'codeslash') {
-    return <CodeSlash onBack={() => setCurrentTool('dashboard')} />;
-  }
+function CodeSlashWrapper() {
+  const navigate = useNavigate();
+  return <CodeSlash onBack={() => navigate('/')} />;
+}
 
-  if (currentTool === 'svg2code') {
-    return <SVG2Code onBack={() => setCurrentTool('dashboard')} />;
-  }
+function SVG2CodeWrapper() {
+  const navigate = useNavigate();
+  return <SVG2Code onBack={() => navigate('/')} />;
+}
 
+function Dashboard() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-blue-600/10 selection:text-blue-600 antialiased overflow-x-hidden">
       {/* Background Decor */}
@@ -41,7 +55,7 @@ export default function App() {
       {/* Modern Navbar */}
       <nav className="sticky top-0 bg-white/70 backdrop-blur-xl border-b border-slate-200/60 z-50">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3 group cursor-pointer" onClick={() => setCurrentTool('dashboard')}>
+          <div className="flex items-center gap-3 group cursor-pointer" onClick={() => navigate('/')}>
             <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center shadow-lg shadow-slate-900/10 group-hover:scale-105 transition-all">
               <img src="/zerobricks/zerobricks_logo.svg" alt="ZeroBricks" className="w-6 h-6 invert" />
             </div>
@@ -121,7 +135,7 @@ export default function App() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div 
-              onClick={() => setCurrentTool('codeslash')}
+              onClick={() => navigate('/codeslash')}
               className="group bg-white p-8 rounded-[32px] border border-slate-200 hover:border-blue-500/50 hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -144,7 +158,7 @@ export default function App() {
             </div>
 
             <div 
-              onClick={() => setCurrentTool('svg2code')}
+              onClick={() => navigate('/svg2code')}
               className="group bg-white p-8 rounded-[32px] border border-slate-200 hover:border-purple-500/50 hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
