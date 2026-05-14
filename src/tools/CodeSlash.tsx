@@ -6,7 +6,6 @@ import {
   Upload, 
   Maximize2, 
   Minimize2,
-  ExternalLink,
   Edit3,
   FileJson,
   ThumbsUp,
@@ -16,7 +15,9 @@ import {
   FileCode,
   Layout,
   Command,
-  ChevronLeft
+  ChevronLeft,
+  RefreshCcw,
+  Monitor
 } from 'lucide-react';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs';
@@ -24,7 +25,7 @@ import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
 import 'prismjs/components/prism-css';
 import 'prismjs/components/prism-markup';
-import 'prismjs/themes/prism.css';
+import 'prismjs/themes/prism-tomorrow.css'; // Using the original dark theme for editor
 
 const DEFAULT_HTML = `<main class="min-h-screen flex items-center justify-center p-6 bg-slate-50">
   <div class="max-w-xl w-full bg-white rounded-3xl shadow-xl p-12 text-center border border-slate-100">
@@ -98,6 +99,14 @@ export default function CodeSlash({ onBack }: { onBack: () => void }) {
     URL.revokeObjectURL(url);
   };
 
+  const resetCode = () => {
+    if (confirm("Are you sure you want to reset all code?")) {
+      setHtml(DEFAULT_HTML);
+      setCss(DEFAULT_CSS);
+      setJs(DEFAULT_JS);
+    }
+  };
+
   const getCode = () => {
     if (activeTab === 'html') return html;
     if (activeTab === 'css') return css;
@@ -117,126 +126,96 @@ export default function CodeSlash({ onBack }: { onBack: () => void }) {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-white text-black font-sans selection:bg-black selection:text-white">
-      {/* Header */}
-      <header className="h-16 border-b-4 border-black flex items-center justify-between px-6 shrink-0 bg-white z-20">
-        <div className="flex items-center gap-6">
+    <div className="flex flex-col h-screen overflow-hidden bg-white text-slate-900">
+      {/* Original Header Style */}
+      <header className="h-14 bg-[#0F172A] flex items-center justify-between px-4 shrink-0 text-white shadow-lg z-30">
+        <div className="flex items-center gap-4">
           <button 
             onClick={onBack}
-            className="p-2 border-2 border-black hover:bg-black hover:text-white transition-colors"
+            className="hover:bg-white/10 p-1 rounded-md transition-colors mr-2"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <div className="flex items-center gap-3">
-            <Code2 className="w-8 h-8 text-black" />
-            <span className="font-black tracking-tighter text-2xl uppercase">CODESLASH</span>
+          <div className="flex items-center gap-2">
+            <Code2 className="w-6 h-6 text-blue-400" />
+            <span className="font-bold tracking-tight text-lg uppercase italic">CODESLASH</span>
+          </div>
+          <div className="h-6 w-[1px] bg-white/20 mx-2" />
+          <div className="flex items-center gap-1">
+             <button onClick={handleFullPreview} className="flex items-center gap-2 px-3 py-1.5 hover:bg-white/10 rounded-md text-sm transition-colors">
+                <Monitor className="w-4 h-4" /> Live View
+             </button>
+             <button onClick={handleDownload} className="flex items-center gap-2 px-3 py-1.5 hover:bg-white/10 rounded-md text-sm transition-colors">
+                <Download className="w-4 h-4" /> Export HTML
+             </button>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <button 
-            onClick={handleFullPreview}
-            className="px-6 py-2 text-[10px] font-black uppercase tracking-widest border-2 border-black hover:bg-black hover:text-white transition-all"
-          >
-            Launch Site
-          </button>
-          <button 
-            onClick={handleDownload}
-            className="px-6 py-2 text-[10px] font-black uppercase tracking-widest bg-black text-white border-2 border-black hover:bg-white hover:text-black transition-all"
-          >
-            Export Project
-          </button>
+        <div className="flex bg-[#1E293B] p-1 rounded-lg">
+          <TabButton active={activeTab === 'html'} onClick={() => setActiveTab('html')} icon={<Layout className="w-4 h-4" />} label="HTML" />
+          <TabButton active={activeTab === 'css'} onClick={() => setActiveTab('css')} icon={<FileCode className="w-4 h-4" />} label="CSS" />
+          <TabButton active={activeTab === 'js'} onClick={() => setActiveTab('js')} icon={<Braces className="w-4 h-4" />} label="JS" />
         </div>
       </header>
 
       <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar (Restored) */}
-        <aside className="hidden lg:flex w-72 border-r-4 border-black flex-col bg-white overflow-y-auto">
-          <div className="p-8 space-y-10">
+        {/* Original Sidebar Style */}
+        <aside className="w-64 bg-[#F8FAFC] border-r border-slate-200 flex flex-col shrink-0 overflow-y-auto">
+          <div className="p-4 space-y-6">
             <div>
-              <h3 className="text-[11px] font-black uppercase tracking-[0.2em] mb-6">Navigation</h3>
-              <div className="space-y-2">
-                <SidebarItem icon={<Eye className="w-4 h-4" />} label="Live Site" onClick={handleFullPreview} />
-                <SidebarItem icon={<Edit3 className="w-4 h-4" />} label="Toggle Mode" onClick={() => setIsPreviewExpanded(!isPreviewExpanded)} />
+              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Preview Mode</h3>
+              <div className="space-y-1">
+                <SidebarAction icon={<Maximize2 className="w-4 h-4" />} label="Expand Editor" onClick={() => setIsPreviewExpanded(false)} active={!isPreviewExpanded} />
+                <SidebarAction icon={<Minimize2 className="w-4 h-4" />} label="Expand Preview" onClick={() => setIsPreviewExpanded(true)} active={isPreviewExpanded} />
               </div>
             </div>
 
-            <div className="h-[2px] bg-black/10" />
+            <div className="h-[1px] bg-slate-200" />
 
             <div>
-              <h3 className="text-[11px] font-black uppercase tracking-[0.2em] mb-6">Operations</h3>
-              <div className="space-y-2">
-                <SidebarItem icon={<FileJson className="w-4 h-4" />} label="Default Template" onClick={() => {}} />
-                <SidebarItem icon={<Upload className="w-4 h-4" />} label="Import Source" onClick={() => {}} />
-                <SidebarItem icon={<Download className="w-4 h-4" />} label="Export Code" onClick={handleDownload} />
+              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Source Control</h3>
+              <div className="space-y-1">
+                <SidebarAction icon={<RefreshCcw className="w-4 h-4" />} label="Reset Project" onClick={resetCode} />
+                <SidebarAction icon={<Upload className="w-4 h-4" />} label="Import Code" onClick={() => {}} />
+                <SidebarAction icon={<Download className="w-4 h-4" />} label="Download All" onClick={handleDownload} />
               </div>
             </div>
 
-            <div className="h-[2px] bg-black/10" />
+            <div className="h-[1px] bg-slate-200" />
 
             <div>
-              <h3 className="text-[11px] font-black uppercase tracking-[0.2em] mb-6">Information</h3>
-              <div className="space-y-2">
-                <SidebarItem icon={<ShieldCheck className="w-4 h-4" />} label="Privacy Policy" onClick={() => {}} />
-                <SidebarItem icon={<HelpCircle className="w-4 h-4" />} label="Developer Docs" onClick={() => {}} />
+              <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Utility</h3>
+              <div className="space-y-1">
+                <SidebarAction icon={<HelpCircle className="w-4 h-4" />} label="Documentation" onClick={() => {}} />
+                <SidebarAction icon={<ShieldCheck className="w-4 h-4" />} label="Privacy Status" onClick={() => {}} />
               </div>
             </div>
           </div>
-          <div className="mt-auto p-8 border-t-2 border-black/5 flex flex-col items-center">
-            <Code2 className="w-10 h-10 text-black/10 mb-2" />
+          <div className="mt-auto p-4 border-t border-slate-200 text-center">
+             <div className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">ZeroBricks v1.0</div>
           </div>
         </aside>
 
         {/* Main Workspace */}
-        <main className="flex-1 flex overflow-hidden bg-white">
+        <main className="flex-1 flex overflow-hidden">
           {/* Editor Section */}
-          {!isPreviewExpanded && (
-            <div className="flex-1 flex flex-col border-r-4 border-black bg-white relative z-10">
-              <div className="h-12 border-b-2 border-black flex items-center px-4 bg-white shrink-0">
-                <div className="flex h-full font-mono">
-                  <EditorTab active={activeTab === 'html'} onClick={() => setActiveTab('html')} icon={<Layout className="w-4 h-4" />} label="HTML" />
-                  <EditorTab active={activeTab === 'css'} onClick={() => setActiveTab('css')} icon={<FileCode className="w-4 h-4" />} label="CSS" />
-                  <EditorTab active={activeTab === 'js'} onClick={() => setActiveTab('js')} icon={<Braces className="w-4 h-4" />} label="JS" />
-                </div>
-              </div>
-              <div className="flex-1 relative overflow-auto custom-scrollbar">
-                <style dangerouslySetInnerHTML={{ __html: `
-                  .token.tag, .token.selector { color: #000 !important; font-weight: 900; }
-                  .token.attr-name, .token.property { color: #444 !important; font-weight: 700; }
-                  .token.attr-value, .token.string { color: #888 !important; }
-                  .token.punctuation { color: #ccc !important; }
-                  .token.comment { color: #ddd !important; font-style: italic; }
-                  .token.function { color: #000 !important; font-weight: 700; }
-                  .react-simple-code-editor textarea { outline: none !important; }
-                `}} />
-                <Editor
-                  value={getCode()}
-                  onValueChange={setCode}
-                  highlight={code => highlight(code, getLanguage(), activeTab)}
-                  padding={32}
-                  className="font-mono text-base leading-relaxed outline-none min-h-full"
-                  style={{ fontFamily: '"JetBrains Mono", monospace' }}
-                />
-              </div>
+          <div className={`flex flex-col bg-[#1E293B] transition-all duration-300 ${isPreviewExpanded ? 'w-0 overflow-hidden opacity-0' : 'flex-1 opacity-100'}`}>
+            <div className="flex-1 relative overflow-auto">
+              <Editor
+                value={getCode()}
+                onValueChange={setCode}
+                highlight={code => highlight(code, getLanguage(), activeTab)}
+                padding={24}
+                className="font-mono text-sm leading-relaxed text-white min-h-full"
+                style={{ fontFamily: '"JetBrains Mono", monospace' }}
+              />
             </div>
-          )}
+          </div>
 
           {/* Preview Section */}
-          <div className={`flex flex-col bg-white transition-all duration-500 ${isPreviewExpanded ? 'flex-[2]' : 'flex-1'}`}>
-            <div className="h-12 border-b-2 border-black flex items-center justify-between px-6 bg-white shrink-0">
-              <div className="flex items-center gap-3">
-                <div className="w-3 h-3 bg-black"></div>
-                <span className="text-[10px] font-black uppercase tracking-[0.2em]">Live Output</span>
-              </div>
-              <button 
-                onClick={() => setIsPreviewExpanded(!isPreviewExpanded)}
-                className="p-2 border-2 border-black hover:bg-black hover:text-white transition-all"
-              >
-                {isPreviewExpanded ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
-              </button>
-            </div>
-            <div className="flex-1 p-8 lg:p-12 bg-white">
-               <div className="w-full h-full bg-white border-4 border-black overflow-hidden relative">
+          <div className={`flex flex-col bg-white transition-all duration-300 ${isPreviewExpanded ? 'flex-1' : 'flex-1 border-l border-slate-200'}`}>
+            <div className="flex-1 p-4 bg-slate-100 relative">
+               <div className="w-full h-full bg-white rounded-xl shadow-inner border border-slate-200 overflow-hidden">
                   <iframe srcDoc={combinedHtml} title="preview" className="w-full h-full border-none" sandbox="allow-scripts" />
                </div>
             </div>
@@ -244,42 +223,40 @@ export default function CodeSlash({ onBack }: { onBack: () => void }) {
         </main>
       </div>
 
-      {/* Status Bar */}
-      <footer className="h-10 border-t-4 border-black bg-white flex items-center justify-between px-6 text-[10px] font-black uppercase tracking-widest shrink-0">
-        <div className="flex items-center gap-10">
-          <span className="flex items-center">
-            <Command className="w-3.5 h-3.5 mr-2" /> ENGINE_READY: <span className="ml-1">SOLID_STATE</span>
-          </span>
-          <span className="hidden sm:inline">CHARS: {(html.length + css.length + js.length).toLocaleString()}</span>
+      {/* Footer */}
+      <footer className="h-8 bg-[#0F172A] border-t border-white/5 flex items-center justify-between px-4 text-[10px] font-medium text-white/50 tracking-wider uppercase">
+        <div className="flex items-center gap-6">
+          <span className="flex items-center"><Command className="w-3 h-3 mr-1.5" /> ENGINE: STABLE</span>
+          <span>CHARS: {(html.length + css.length + js.length).toLocaleString()}</span>
         </div>
-        <div>ZEROBRICKS_CODESLASH_V1</div>
+        <div>ZEROBRICKS v1.0</div>
       </footer>
     </div>
   );
 }
 
-function EditorTab({ active, onClick, icon, label }: any) {
+function TabButton({ active, onClick, icon, label }: any) {
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-3 px-8 h-full text-[11px] font-black uppercase tracking-widest transition-all border-r-2 border-black ${
-        active ? "bg-black text-white" : "text-black hover:bg-black/5"
+      className={`flex items-center gap-2 px-4 py-1.5 rounded-md text-xs font-bold transition-all ${
+        active ? "bg-white text-slate-900 shadow-md" : "text-slate-400 hover:text-white"
       }`}
     >
-      <span className={active ? "text-white" : "text-black/30"}>{icon}</span>
-      {label}
+      {icon} {label}
     </button>
   );
 }
 
-function SidebarItem({ icon, label, onClick }: any) {
+function SidebarAction({ icon, label, onClick, active }: any) {
   return (
     <button 
       onClick={onClick}
-      className="w-full flex items-center gap-4 px-4 py-3 border-2 border-black text-[11px] font-black uppercase tracking-tight hover:bg-black hover:text-white transition-all group"
+      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
+        active ? 'bg-white text-blue-600 shadow-sm border border-slate-200' : 'text-slate-600 hover:bg-white hover:text-slate-900 hover:shadow-sm border border-transparent'
+      }`}
     >
-      <span className="text-black group-hover:text-white transition-colors">{icon}</span>
-      <span>{label}</span>
+      {icon} <span>{label}</span>
     </button>
   );
 }
