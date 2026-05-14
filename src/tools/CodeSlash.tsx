@@ -191,7 +191,7 @@ export default function CodeSlash({ onBack }: { onBack: () => void }) {
             </div>
           </div>
           <div className="mt-auto p-4 border-t border-slate-200 text-center">
-             <div className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.2em]">ZeroBricks v1.0</div>
+             <a href="https://www.zerorapid.in" target="_blank" rel="noreferrer" className="text-[10px] font-black text-slate-300 hover:text-slate-900 transition-colors uppercase tracking-[0.2em]">BY ZERORAPID</a>
           </div>
         </aside>
 
@@ -222,13 +222,12 @@ export default function CodeSlash({ onBack }: { onBack: () => void }) {
         </main>
       </div>
 
-      {/* Footer */}
-      <footer className="h-8 bg-[#0F172A] border-t border-white/5 flex items-center justify-between px-4 text-[10px] font-medium text-white/50 tracking-wider uppercase">
+      <footer className="h-8 bg-[#0F172A] border-t border-white/5 flex items-center justify-between px-4 text-[10px] font-black text-white/40 tracking-wider uppercase">
         <div className="flex items-center gap-6">
           <span className="flex items-center"><Command className="w-3 h-3 mr-1.5" /> ENGINE: STABLE</span>
           <span>CHARS: {(html.length + css.length + js.length).toLocaleString()}</span>
         </div>
-        <div>ZEROBRICKS v1.0</div>
+        <a href="https://www.zerorapid.in" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">BY ZERORAPID</a>
       </footer>
     </div>
   );

@@ -194,14 +194,29 @@ function Dashboard() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-12 relative z-10">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-3 opacity-40">
-            <Zap className="w-4 h-4" />
-            <span className="text-[10px] font-bold uppercase tracking-widest">ZeroBricks ToolSuite © 2026</span>
+      <footer className="bg-white border-t border-slate-200 py-16 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col items-center gap-8">
+          <div className="flex flex-col items-center gap-3">
+            <a 
+              href="https://www.zerorapid.in" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="group flex items-center gap-3 px-6 py-3 bg-slate-50 border border-slate-200 rounded-2xl hover:border-blue-500/30 hover:bg-white hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-500"
+            >
+              <span className="text-slate-500 font-medium transition-colors group-hover:text-slate-600">Built with ❤️ by</span>
+              <span className="text-slate-900 font-black tracking-tight text-lg italic">ZeroRapid</span>
+            </a>
+            <a 
+              href="mailto:hello@zerorapid.in" 
+              className="text-slate-400 hover:text-blue-600 transition-colors font-medium tracking-tight"
+            >
+              hello@zerorapid.in
+            </a>
           </div>
-          <div className="flex items-center gap-8">
-            <a href="https://github.com/zerorapid" className="text-[10px] font-bold text-slate-400 hover:text-slate-900 transition-colors uppercase tracking-widest">Powered by ZeroRapid</a>
+          <div className="flex items-center gap-3 opacity-30 select-none">
+            <div className="w-1.5 h-1.5 bg-slate-900 rounded-full" />
+            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-900">ZeroBricks Lab © {new Date().getFullYear()}</span>
+            <div className="w-1.5 h-1.5 bg-slate-900 rounded-full" />
           </div>
         </div>
       </footer>

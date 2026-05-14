@@ -330,12 +330,12 @@ export default function SVG2Code({ onBack }: { onBack: () => void }) {
         </div>
       </main>
 
-      <footer className="h-8 bg-[#0F172A] border-t border-white/5 flex items-center justify-between px-4 text-[10px] font-medium text-white/50 tracking-wider uppercase">
+      <footer className="h-8 bg-[#0F172A] border-t border-white/5 flex items-center justify-between px-4 text-[10px] font-black text-white/40 tracking-wider uppercase">
         <div className="flex items-center gap-6">
           <span className="flex items-center"><Command className="w-3 h-3 mr-1.5" /> ENGINE: STABLE</span>
-          <span>BUILT FOR RAPID FRONTEND DEVELOPMENT</span>
+          <span>SVG OPTIMIZATION ENGINE ACTIVE</span>
         </div>
-        <div>ZEROBRICKS v1.0</div>
+        <a href="https://www.zerorapid.in" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">BY ZERORAPID</a>
       </footer>
     </div>
   );
