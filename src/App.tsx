@@ -56,10 +56,7 @@ function Dashboard() {
       <nav className="sticky top-0 bg-white/70 backdrop-blur-xl border-b border-slate-200/60 z-50">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3 group cursor-pointer" onClick={() => navigate('/')}>
-            <div className="h-10 flex items-center justify-center group-hover:scale-105 transition-all">
-              <img src="/zerobricks/zerobricks_logo.svg" alt="ZeroBricks" className="h-8 w-auto invert" />
-            </div>
-            <h1 className="text-xl font-black tracking-tight leading-none text-slate-900">ZeroBricks</h1>
+            <h1 className="text-2xl font-black tracking-tighter leading-none text-slate-900 group-hover:text-blue-600 transition-colors uppercase italic">ZeroBricks</h1>
           </div>
 
           <div className="flex items-center gap-3">
