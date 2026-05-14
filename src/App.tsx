@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import CodeSlash from './tools/CodeSlash';
-import { useRive, Layout as RiveLayout, Fit, Alignment, useStateMachineInput } from '@rive-app/react-canvas';
+import Rive, { Layout as RiveLayout, Fit, Alignment } from '@rive-app/react-canvas';
 import { 
   Code2, 
   Zap, 
@@ -22,7 +22,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-blue-600/10 selection:text-blue-600 antialiased">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-blue-600/10 selection:text-blue-600 antialiased overflow-x-hidden">
       {/* Background Decor */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-[120px]" />
@@ -59,7 +59,7 @@ export default function App() {
       {/* Hero Section */}
       <main className="max-w-7xl mx-auto px-6 pt-12 pb-32 relative z-10">
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
-          <div className="max-w-2xl">
+          <div className="max-w-2xl relative z-20">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-blue-100 rounded-full text-[10px] font-bold uppercase tracking-widest mb-8 shadow-sm text-blue-600">
               <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></span> Intelligent ToolSuite
             </div>
@@ -84,21 +84,23 @@ export default function App() {
             </div>
           </div>
 
-          {/* Masked Rive Cat Robot Column */}
-          <div className="relative aspect-square lg:aspect-auto lg:h-[600px] flex items-center justify-center group overflow-visible">
-            <div className="w-[450px] h-[450px] relative">
-              {/* Circular mask to hide the grey box inside the Rive file */}
-              <div className="absolute inset-0 rounded-full overflow-hidden border-8 border-white/20 shadow-2xl">
-                 <CatRobot />
-              </div>
-              {/* Subtle Glow behind the circle */}
-              <div className="absolute inset-0 bg-blue-400/20 rounded-full blur-[60px] -z-10" />
-            </div>
+          {/* Large Interactive Robot Column */}
+          <div className="relative h-[400px] lg:h-[700px] flex items-center justify-center overflow-visible">
+            {/* The Rive component itself handles the listeners naturally if sized correctly */}
+            <Rive
+              src="/zerobricks/cat_robot.riv"
+              stateMachines="State Machine 1"
+              layout={new RiveLayout({
+                fit: Fit.Contain,
+                alignment: Alignment.Center,
+              })}
+              className="w-full h-full"
+            />
           </div>
         </section>
 
         {/* Tools Grid */}
-        <section id="bricks-grid">
+        <section id="bricks-grid" className="relative z-20">
           <div className="flex items-center gap-4 mb-10">
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.3em] whitespace-nowrap">The Collection</h3>
             <div className="h-[1px] w-full bg-slate-200/60" />
@@ -155,43 +157,4 @@ export default function App() {
       </footer>
     </div>
   );
-}
-
-function CatRobot() {
-  const { rive, RiveComponent } = useRive({
-    src: "/zerobricks/cat_robot.riv",
-    stateMachines: "State Machine 1",
-    layout: new RiveLayout({
-      fit: Fit.Cover, // Changed to Cover to help fill the circular mask
-      alignment: Alignment.Center,
-    }),
-    autoplay: true,
-  });
-
-  // Attempt to map mouse coordinates to common Rive input names
-  const xAxisInput = useStateMachineInput(rive, "State Machine 1", "xAxis");
-  const yAxisInput = useStateMachineInput(rive, "State Machine 1", "yAxis");
-  const mouseXInput = useStateMachineInput(rive, "State Machine 1", "mouseX");
-  const mouseYInput = useStateMachineInput(rive, "State Machine 1", "mouseY");
-
-  useEffect(() => {
-    const onMouseMove = (e: MouseEvent) => {
-      if (!rive) return;
-      
-      // Calculate normalized position (0 to 100)
-      const x = (e.clientX / window.innerWidth) * 100;
-      const y = (e.clientY / window.innerHeight) * 100;
-
-      // Update whatever inputs the file might be using
-      if (xAxisInput) xAxisInput.value = x;
-      if (yAxisInput) yAxisInput.value = y;
-      if (mouseXInput) mouseXInput.value = x;
-      if (mouseYInput) mouseYInput.value = y;
-    };
-
-    window.addEventListener("mousemove", onMouseMove);
-    return () => window.removeEventListener("mousemove", onMouseMove);
-  }, [rive, xAxisInput, yAxisInput, mouseXInput, mouseYInput]);
-
-  return <RiveComponent className="w-full h-full" />;
 }
