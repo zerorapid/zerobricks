@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --radius-ui: 15px;
+}
+
+@layer base {
+  body {
+    @apply bg-slate-950 text-slate-50 selection:bg-brand-primary/30;
+  }
+}
+
+.rounded-ui {
+  border-radius: var(--radius-ui);
+}
+
+/* Custom Scrollbar for Cyber Aesthetics */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-950;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-800 hover:bg-slate-700 transition-colors;
+}
