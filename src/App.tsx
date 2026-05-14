@@ -43,7 +43,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3 group cursor-pointer" onClick={() => setCurrentTool('dashboard')}>
             <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center shadow-lg shadow-slate-900/10 group-hover:scale-105 transition-all">
-              <Zap className="w-5 h-5 text-white fill-white" />
+              <img src="/zerobricks/zerobricks_logo.svg" alt="ZeroBricks" className="w-6 h-6 invert" />
             </div>
             <h1 className="text-xl font-black tracking-tight leading-none text-slate-900">ZeroBricks</h1>
           </div>
@@ -125,8 +125,8 @@ export default function App() {
               className="group bg-white p-8 rounded-[32px] border border-slate-200 hover:border-blue-500/50 hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="w-14 h-14 bg-slate-900 text-white rounded-2xl flex items-center justify-center mb-10 group-hover:bg-blue-600 group-hover:scale-110 transition-all duration-500 shadow-lg shadow-slate-900/10">
-                <Code2 className="w-7 h-7" />
+              <div className="w-14 h-14 bg-white border border-slate-100 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-500 shadow-lg">
+                <img src="/zerobricks/codeslash_logo.svg" alt="CodeSlash" className="w-8 h-8 object-contain" />
               </div>
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">
@@ -148,8 +148,8 @@ export default function App() {
               className="group bg-white p-8 rounded-[32px] border border-slate-200 hover:border-purple-500/50 hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="w-14 h-14 bg-slate-900 text-white rounded-2xl flex items-center justify-center mb-10 group-hover:bg-purple-600 group-hover:scale-110 transition-all duration-500 shadow-lg shadow-slate-900/10">
-                <FileCode className="w-7 h-7" />
+              <div className="w-14 h-14 bg-white border border-slate-100 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-500 shadow-lg">
+                <img src="/zerobricks/svg2code_logo.svg" alt="SVG2Code" className="w-8 h-8 object-contain" />
               </div>
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">

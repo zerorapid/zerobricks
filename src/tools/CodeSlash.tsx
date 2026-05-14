@@ -137,7 +137,7 @@ export default function CodeSlash({ onBack }: { onBack: () => void }) {
             <ChevronLeft className="w-5 h-5" />
           </button>
           <div className="flex items-center gap-2">
-            <Code2 className="w-6 h-6 text-blue-400" />
+            <img src="/zerobricks/codeslash_logo.svg" alt="CodeSlash" className="w-6 h-6 invert" />
             <span className="font-bold tracking-tight text-lg uppercase italic">CODESLASH</span>
           </div>
           <div className="h-6 w-[1px] bg-white/20 mx-2" />
