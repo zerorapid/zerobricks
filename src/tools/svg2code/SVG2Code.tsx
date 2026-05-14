@@ -16,7 +16,6 @@ import {
   Command,
   Monitor
 } from 'lucide-react';
-import { Logo } from './components/Logo';
 import { useDropzone } from 'react-dropzone';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -132,7 +131,7 @@ export default function SVG2Code({ onBack }: { onBack: () => void }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F5F7] text-[#1D1D1F] font-sans selection:bg-blue-100 selection:text-blue-600">
+    <div className="min-h-screen flex flex-col bg-[#F5F5F7] text-[#1D1D1F] font-sans selection:bg-blue-100 selection:text-blue-600">
       {/* Header */}
       <header className="h-14 bg-[#0F172A] flex items-center justify-between px-4 shrink-0 text-white shadow-lg z-50">
         <div className="flex items-center gap-4">
@@ -165,7 +164,7 @@ export default function SVG2Code({ onBack }: { onBack: () => void }) {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto p-4 md:p-8 space-y-6">
+      <main className="max-w-4xl w-full mx-auto p-4 md:p-8 space-y-6 flex-1">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Upload & Preview */}
           <div className="space-y-6">
