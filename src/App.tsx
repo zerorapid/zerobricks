@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import CodeSlash from './tools/CodeSlash';
-import Rive, { Layout as RiveLayout, Fit, Alignment } from '@rive-app/react-canvas';
+import { useRive, Layout as RiveLayout, Fit, Alignment } from '@rive-app/react-canvas';
 import { 
   Code2, 
   Zap, 
@@ -22,7 +22,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-600/10 selection:text-blue-600 antialiased">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-blue-600/10 selection:text-blue-600 antialiased">
       {/* Background Decor */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-[120px]" />
@@ -55,7 +55,7 @@ export default function App() {
         </div>
       </nav>
 
-      {/* Hero Section with Rive Integration */}
+      {/* Hero Section */}
       <main className="max-w-7xl mx-auto px-6 pt-12 pb-32 relative z-10">
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
           <div className="max-w-2xl">
@@ -83,17 +83,12 @@ export default function App() {
             </div>
           </div>
 
-          {/* Rive Cat Robot Column */}
-          <div className="relative aspect-square lg:aspect-auto lg:h-[600px] bg-white/40 rounded-[48px] border border-white shadow-2xl shadow-blue-500/5 backdrop-blur-sm group overflow-hidden">
-            <Rive
-              src="/zerobricks/cat_robot.riv" // Pointing to the local file in the public folder
-              layout={new RiveLayout({ fit: Fit.Contain, alignment: Alignment.Center })}
-              className="w-full h-full transform transition-transform duration-1000 group-hover:scale-110"
-              stateMachines="State Machine 1" // Common default name for Rive state machines
-            />
-            {/* Overlay hint */}
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-4 py-2 bg-slate-900/10 backdrop-blur-md rounded-full text-[10px] font-bold text-slate-400 uppercase tracking-widest border border-white/20">
-              Interactive Component
+          {/* Transparent Rive Cat Robot Column */}
+          <div className="relative aspect-square lg:aspect-auto lg:h-[600px] flex items-center justify-center group overflow-visible">
+            <CatRobot />
+            {/* Minimal Overlay hint */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-4 py-2 bg-white/50 backdrop-blur-md rounded-full text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] border border-slate-200/50 opacity-0 group-hover:opacity-100 transition-opacity">
+              Interactive Cat Unit
             </div>
           </div>
         </section>
@@ -156,4 +151,18 @@ export default function App() {
       </footer>
     </div>
   );
+}
+
+function CatRobot() {
+  const { RiveComponent } = useRive({
+    src: "/zerobricks/cat_robot.riv",
+    stateMachines: "State Machine 1",
+    layout: new RiveLayout({
+      fit: Fit.Contain,
+      alignment: Alignment.Center,
+    }),
+    autoplay: true,
+  });
+
+  return <RiveComponent className="w-full h-full" />;
 }
