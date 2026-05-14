@@ -164,5 +164,9 @@ function CatRobot() {
     autoplay: true,
   });
 
-  return <RiveComponent className="w-full h-full" />;
+  return (
+    <div className="w-full h-full bg-[#F8FAFC] flex items-center justify-center">
+      <RiveComponent className="w-full h-full" key="cat-robot-v2" />
+    </div>
+  );
 }
