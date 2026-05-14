@@ -86,9 +86,10 @@ export default function App() {
           {/* Rive Cat Robot Column */}
           <div className="relative aspect-square lg:aspect-auto lg:h-[600px] bg-white/40 rounded-[48px] border border-white shadow-2xl shadow-blue-500/5 backdrop-blur-sm group overflow-hidden">
             <Rive
-              src="https://cdn.rive.app/animations/vehicles.riv" // Placeholder Rive animation
+              src="/zerobricks/cat_robot.riv" // Pointing to the local file in the public folder
               layout={new RiveLayout({ fit: Fit.Contain, alignment: Alignment.Center })}
               className="w-full h-full transform transition-transform duration-1000 group-hover:scale-110"
+              stateMachines="State Machine 1" // Common default name for Rive state machines
             />
             {/* Overlay hint */}
             <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-4 py-2 bg-slate-900/10 backdrop-blur-md rounded-full text-[10px] font-bold text-slate-400 uppercase tracking-widest border border-white/20">
