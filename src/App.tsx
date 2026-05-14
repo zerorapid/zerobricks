@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CodeSlash from './tools/CodeSlash';
+import SVG2Code from './tools/svg2code/SVG2Code';
 import { DotLottiePlayer } from '@dotlottie/react-player';
 import '@dotlottie/react-player/dist/index.css';
 import Rive, { Layout as RiveLayout, Fit, Alignment } from '@rive-app/react-canvas';
@@ -11,16 +12,21 @@ import {
   ArrowRight,
   ArrowUpRight,
   Github,
-  Monitor
+  Monitor,
+  FileCode
 } from 'lucide-react';
 
-type ToolType = 'dashboard' | 'codeslash';
+type ToolType = 'dashboard' | 'codeslash' | 'svg2code';
 
 export default function App() {
   const [currentTool, setCurrentTool] = useState<ToolType>('dashboard');
 
   if (currentTool === 'codeslash') {
     return <CodeSlash onBack={() => setCurrentTool('dashboard')} />;
+  }
+
+  if (currentTool === 'svg2code') {
+    return <SVG2Code onBack={() => setCurrentTool('dashboard')} />;
   }
 
   return (
@@ -132,6 +138,29 @@ export default function App() {
                 </p>
                 <div className="flex items-center gap-4">
                   <span className="px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-lg border border-blue-100">STABLE</span>
+                  <span className="px-3 py-1 bg-slate-50 text-slate-400 text-[10px] font-bold rounded-lg">V1.0</span>
+                </div>
+              </div>
+            </div>
+
+            <div 
+              onClick={() => setCurrentTool('svg2code')}
+              className="group bg-white p-8 rounded-[32px] border border-slate-200 hover:border-purple-500/50 hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="w-14 h-14 bg-slate-900 text-white rounded-2xl flex items-center justify-center mb-10 group-hover:bg-purple-600 group-hover:scale-110 transition-all duration-500 shadow-lg shadow-slate-900/10">
+                <FileCode className="w-7 h-7" />
+              </div>
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-2xl font-black tracking-tight group-hover:text-purple-600 transition-colors">SVG2Code</h3>
+                  <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-purple-600 transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </div>
+                <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8">
+                  Convert SVG files to clean React components or optimized SVG code instantly with live preview and color editing.
+                </p>
+                <div className="flex items-center gap-4">
+                  <span className="px-3 py-1 bg-purple-50 text-purple-600 text-[10px] font-bold rounded-lg border border-purple-100">NEW</span>
                   <span className="px-3 py-1 bg-slate-50 text-slate-400 text-[10px] font-bold rounded-lg">V1.0</span>
                 </div>
               </div>
