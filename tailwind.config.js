@@ -8,9 +8,15 @@ export default {
     extend: {
       colors: {
         brand: {
-          primary: "#00f2ff",
-          secondary: "#7000ff",
-          dark: "#0a0a0a",
+          black: "#000000",
+          white: "#ffffff",
+          slate: {
+            50: "#f8fafc",
+            100: "#f1f5f9",
+            200: "#e2e8f0",
+            800: "#1e293b",
+            900: "#0f172a",
+          }
         }
       },
       fontFamily: {
@@ -18,7 +24,7 @@ export default {
         mono: ['JetBrains Mono', 'monospace'],
       },
       borderRadius: {
-        'ui': '15px',
+        'ui': '0px', // Solid sharp edges for brutalist look
       }
     },
   },
