@@ -98,7 +98,7 @@ export default function App() {
             </div>
             
             <DotLottiePlayer
-              src="/zerobricks/cat-meow.json"
+              src={`/zerobricks/cat-meow.json?v=${Date.now()}`}
               autoplay
               loop
               style={{ width: '100%', height: '100%' }}
