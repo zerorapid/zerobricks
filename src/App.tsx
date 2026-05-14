@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Routes, Route, useNavigate, Link } from 'react-router-dom';
 import CodeSlash from './tools/CodeSlash';
 import { 
   Code2, 
   Terminal, 
-  Layout, 
   Zap, 
   Settings,
   Plus,
@@ -12,15 +12,18 @@ import {
   ArrowRight
 } from 'lucide-react';
 
-type ToolType = 'dashboard' | 'codeslash';
-
 export default function App() {
-  const [currentTool, setCurrentTool] = useState<ToolType>('dashboard');
+  const navigate = useNavigate();
 
-  if (currentTool === 'codeslash') {
-    return <CodeSlash onBack={() => setCurrentTool('dashboard')} />;
-  }
+  return (
+    <Routes>
+      <Route path="/" element={<Dashboard onLaunch={(tool) => navigate(`/${tool}`)} />} />
+      <Route path="/codeslash" element={<CodeSlash onBack={() => navigate('/')} />} />
+    </Routes>
+  );
+}
 
+function Dashboard({ onLaunch }: { onLaunch: (tool: string) => void }) {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-50 font-sans selection:bg-brand-primary/30">
       {/* Background Decor */}
@@ -43,11 +46,6 @@ export default function App() {
           </div>
 
           <div className="flex items-center gap-6">
-            <div className="hidden md:flex items-center gap-6 text-xs font-bold uppercase tracking-widest text-slate-400">
-              <a href="#" className="hover:text-brand-primary transition-colors">Tools</a>
-              <a href="#" className="hover:text-brand-primary transition-colors">GitHub</a>
-              <a href="#" className="hover:text-brand-primary transition-colors">Support</a>
-            </div>
             <button className="p-2.5 bg-white/5 hover:bg-white/10 rounded-xl border border-white/5 transition-all">
               <Settings className="w-5 h-5 text-slate-400" />
             </button>
@@ -75,31 +73,13 @@ export default function App() {
           </div>
         </div>
 
-        {/* Search & Filter */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-12">
-          <div className="relative w-full md:w-96">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-            <input 
-              type="text" 
-              placeholder="Search tools..." 
-              className="w-full bg-slate-900/50 border border-white/5 rounded-2xl py-4 pl-12 pr-6 text-sm focus:outline-none focus:border-brand-primary/50 focus:ring-1 focus:ring-brand-primary/50 transition-all"
-            />
-          </div>
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
-            <FilterChip label="All Tools" active />
-            <FilterChip label="Development" />
-            <FilterChip label="Design" />
-            <FilterChip label="Data" />
-          </div>
-        </div>
-
         {/* Tools Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <ToolCard 
             title="CodeSlash"
             description="Live HTML/CSS/JS editor with instant preview. Perfect for prototyping UI components."
             icon={<Code2 className="w-8 h-8" />}
-            onClick={() => setCurrentTool('codeslash')}
+            onClick={() => onLaunch('codeslash')}
             badge="Popular"
             color="cyan"
           />
@@ -114,17 +94,11 @@ export default function App() {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="relative z-10 border-t border-white/5 bg-slate-950 py-12">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex items-center gap-2 opacity-50">
             <Zap className="w-4 h-4" />
             <span className="text-xs font-black tracking-widest uppercase">ZeroBricks 2026</span>
-          </div>
-          <div className="flex items-center gap-8 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">
-            <a href="#" className="hover:text-white transition-colors">Documentation</a>
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
           </div>
         </div>
       </footer>
@@ -161,17 +135,7 @@ function ToolCard({ title, description, icon, onClick, badge, color, isPlacehold
           Launch Tool <ExternalLink className="w-3 h-3" />
         </div>
       )}
-
-      {/* Card Glow */}
       <div className="absolute -bottom-12 -right-12 w-32 h-32 bg-brand-primary/10 rounded-full blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity" />
-    </button>
-  );
-}
-
-function FilterChip({ label, active }: { label: string; active?: boolean }) {
-  return (
-    <button className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all border whitespace-nowrap ${active ? 'bg-brand-primary text-black border-brand-primary shadow-lg shadow-brand-primary/20' : 'bg-white/5 text-slate-500 border-white/5 hover:border-white/10 hover:text-slate-300'}`}>
-      {label}
     </button>
   );
 }
