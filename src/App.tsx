@@ -56,10 +56,9 @@ function Dashboard() {
       <nav className="sticky top-0 bg-white/70 backdrop-blur-xl border-b border-slate-200/60 z-50">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3 group cursor-pointer" onClick={() => navigate('/')}>
-            <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center shadow-lg shadow-slate-900/10 group-hover:scale-105 transition-all">
-              <img src="/zerobricks/zerobricks_logo.svg" alt="ZeroBricks" className="w-6 h-6 invert" />
+            <div className="h-10 flex items-center justify-center group-hover:scale-105 transition-all">
+              <img src="/zerobricks/zerobricks_full.svg" alt="ZeroBricks" className="h-8 w-auto" />
             </div>
-            <h1 className="text-xl font-black tracking-tight leading-none text-slate-900">ZeroBricks</h1>
           </div>
 
           <div className="flex items-center gap-3">
@@ -139,8 +138,8 @@ function Dashboard() {
               className="group bg-white p-8 rounded-[32px] border border-slate-200 hover:border-blue-500/50 hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="w-14 h-14 bg-white border border-slate-100 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-500 shadow-lg">
-                <img src="/zerobricks/codeslash_logo.svg" alt="CodeSlash" className="w-8 h-8 object-contain" />
+              <div className="w-14 h-14 bg-slate-900 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-500 shadow-lg overflow-hidden">
+                <img src="/zerobricks/codeslash_icon_only.svg" alt="CodeSlash" className="w-full h-full object-cover" />
               </div>
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">
@@ -162,8 +161,8 @@ function Dashboard() {
               className="group bg-white p-8 rounded-[32px] border border-slate-200 hover:border-purple-500/50 hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="w-14 h-14 bg-white border border-slate-100 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-500 shadow-lg">
-                <img src="/zerobricks/svg2code_logo.svg" alt="SVG2Code" className="w-8 h-8 object-contain" />
+              <div className="w-14 h-14 bg-[#0e8bd8] rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-500 shadow-lg overflow-hidden">
+                <img src="/zerobricks/svg2code_icon_only.svg" alt="SVG2Code" className="w-full h-full object-cover" />
               </div>
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">
