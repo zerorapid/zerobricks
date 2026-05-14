@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import CodeSlash from './tools/CodeSlash';
-import { useRive, Layout as RiveLayout, Fit, Alignment } from '@rive-app/react-canvas';
+import { useRive, Layout as RiveLayout, Fit, Alignment, useStateMachineInput } from '@rive-app/react-canvas';
 import { 
   Code2, 
   Zap, 
@@ -44,6 +44,7 @@ export default function App() {
             <a 
               href="https://github.com/zerorapid/zerobricks" 
               target="_blank" 
+              rel="noreferrer"
               className="hidden sm:flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors"
             >
               <Github className="w-4 h-4" /> Source
@@ -83,12 +84,15 @@ export default function App() {
             </div>
           </div>
 
-          {/* Transparent Rive Cat Robot Column */}
+          {/* Masked Rive Cat Robot Column */}
           <div className="relative aspect-square lg:aspect-auto lg:h-[600px] flex items-center justify-center group overflow-visible">
-            <CatRobot />
-            {/* Minimal Overlay hint */}
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-4 py-2 bg-white/50 backdrop-blur-md rounded-full text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em] border border-slate-200/50 opacity-0 group-hover:opacity-100 transition-opacity">
-              Interactive Cat Unit
+            <div className="w-[450px] h-[450px] relative">
+              {/* Circular mask to hide the grey box inside the Rive file */}
+              <div className="absolute inset-0 rounded-full overflow-hidden border-8 border-white/20 shadow-2xl">
+                 <CatRobot />
+              </div>
+              {/* Subtle Glow behind the circle */}
+              <div className="absolute inset-0 bg-blue-400/20 rounded-full blur-[60px] -z-10" />
             </div>
           </div>
         </section>
@@ -154,19 +158,40 @@ export default function App() {
 }
 
 function CatRobot() {
-  const { RiveComponent } = useRive({
+  const { rive, RiveComponent } = useRive({
     src: "/zerobricks/cat_robot.riv",
     stateMachines: "State Machine 1",
     layout: new RiveLayout({
-      fit: Fit.Contain,
+      fit: Fit.Cover, // Changed to Cover to help fill the circular mask
       alignment: Alignment.Center,
     }),
     autoplay: true,
   });
 
-  return (
-    <div className="w-full h-full bg-[#F8FAFC] flex items-center justify-center">
-      <RiveComponent className="w-full h-full" key="cat-robot-v2" />
-    </div>
-  );
+  // Attempt to map mouse coordinates to common Rive input names
+  const xAxisInput = useStateMachineInput(rive, "State Machine 1", "xAxis");
+  const yAxisInput = useStateMachineInput(rive, "State Machine 1", "yAxis");
+  const mouseXInput = useStateMachineInput(rive, "State Machine 1", "mouseX");
+  const mouseYInput = useStateMachineInput(rive, "State Machine 1", "mouseY");
+
+  useEffect(() => {
+    const onMouseMove = (e: MouseEvent) => {
+      if (!rive) return;
+      
+      // Calculate normalized position (0 to 100)
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+
+      // Update whatever inputs the file might be using
+      if (xAxisInput) xAxisInput.value = x;
+      if (yAxisInput) yAxisInput.value = y;
+      if (mouseXInput) mouseXInput.value = x;
+      if (mouseYInput) mouseYInput.value = y;
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    return () => window.removeEventListener("mousemove", onMouseMove);
+  }, [rive, xAxisInput, yAxisInput, mouseXInput, mouseYInput]);
+
+  return <RiveComponent className="w-full h-full" />;
 }
