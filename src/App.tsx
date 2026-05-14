@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import CodeSlash from './tools/CodeSlash';
+import { DotLottiePlayer } from '@dotlottie/react-player';
+import '@dotlottie/react-player/dist/index.css';
 import Rive, { Layout as RiveLayout, Fit, Alignment } from '@rive-app/react-canvas';
 import { 
   Code2, 
@@ -86,15 +88,11 @@ export default function App() {
 
           {/* Large Interactive Robot Column */}
           <div className="relative h-[400px] lg:h-[700px] flex items-center justify-center overflow-visible">
-            {/* The Rive component itself handles the listeners naturally if sized correctly */}
-            <Rive
-              src="/zerobricks/cat_robot.riv"
-              stateMachines="State Machine 1"
-              layout={new RiveLayout({
-                fit: Fit.Contain,
-                alignment: Alignment.Center,
-              })}
-              className="w-full h-full"
+            <DotLottiePlayer
+              src="/zerobricks/error.lottie"
+              autoplay
+              loop
+              style={{ width: '100%', height: '100%' }}
             />
           </div>
         </section>
