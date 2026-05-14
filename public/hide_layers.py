@@ -4,8 +4,8 @@ with open('/Users/Jayapalreddy/.gemini/antigravity/scratch/zerobricks/public/meo
     data = json.load(f)
 
 for layer in data.get('layers', []):
-    if layer.get('nm') == 'error':
+    if layer.get('nm') in ['error', 'bubble']:
         layer['hd'] = True
 
-with open('/Users/Jayapalreddy/.gemini/antigravity/scratch/zerobricks/public/meow.json', 'w') as f:
+with open('/Users/Jayapalreddy/.gemini/antigravity/scratch/zerobricks/public/cat-meow.json', 'w') as f:
     json.dump(data, f)

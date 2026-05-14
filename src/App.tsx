@@ -89,12 +89,16 @@ export default function App() {
           {/* Large Interactive Robot Column */}
           <div className="relative h-[400px] lg:h-[700px] flex items-center justify-center overflow-visible group">
             {/* Floating Meow Bubble */}
-            <div className="absolute top-[20%] right-[15%] bg-white px-6 py-3 rounded-2xl rounded-bl-none shadow-xl border border-slate-100 z-30 animate-bounce transition-all">
-              <span className="text-lg font-black text-slate-900 tracking-tight">Meow! 🐾</span>
+            <div className="absolute top-[25%] left-[55%] bg-slate-900 px-6 py-3 rounded-2xl rounded-bl-none shadow-2xl z-30 animate-bounce transition-all transform hover:scale-110">
+              <span className="text-lg font-black text-white tracking-tight flex items-center gap-2">
+                Meow! <span className="animate-pulse">🐾</span>
+              </span>
+              {/* Triangle pointer */}
+              <div className="absolute -bottom-2 left-0 w-0 h-0 border-t-[10px] border-t-slate-900 border-r-[10px] border-r-transparent"></div>
             </div>
             
             <DotLottiePlayer
-              src="/zerobricks/meow.json"
+              src="/zerobricks/cat-meow.json"
               autoplay
               loop
               style={{ width: '100%', height: '100%' }}
