@@ -87,9 +87,14 @@ export default function App() {
           </div>
 
           {/* Large Interactive Robot Column */}
-          <div className="relative h-[400px] lg:h-[700px] flex items-center justify-center overflow-visible">
+          <div className="relative h-[400px] lg:h-[700px] flex items-center justify-center overflow-visible group">
+            {/* Floating Meow Bubble */}
+            <div className="absolute top-[20%] right-[15%] bg-white px-6 py-3 rounded-2xl rounded-bl-none shadow-xl border border-slate-100 z-30 animate-bounce transition-all">
+              <span className="text-lg font-black text-slate-900 tracking-tight">Meow! 🐾</span>
+            </div>
+            
             <DotLottiePlayer
-              src="/zerobricks/error.lottie"
+              src="/zerobricks/meow.json"
               autoplay
               loop
               style={{ width: '100%', height: '100%' }}
