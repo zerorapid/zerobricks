@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CodeSlash from './tools/CodeSlash';
+import Rive, { Layout as RiveLayout, Fit, Alignment } from '@rive-app/react-canvas';
 import { 
   Code2, 
   Zap, 
@@ -8,8 +9,7 @@ import {
   ArrowRight,
   ArrowUpRight,
   Github,
-  Monitor,
-  Layout
+  Monitor
 } from 'lucide-react';
 
 type ToolType = 'dashboard' | 'codeslash';
@@ -44,7 +44,6 @@ export default function App() {
             <a 
               href="https://github.com/zerorapid/zerobricks" 
               target="_blank" 
-              rel="noreferrer"
               className="hidden sm:flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors"
             >
               <Github className="w-4 h-4" /> Source
@@ -56,34 +55,49 @@ export default function App() {
         </div>
       </nav>
 
-      {/* Refined Hero */}
-      <main className="max-w-7xl mx-auto px-6 pt-20 pb-32 relative z-10">
-        <section className="max-w-4xl mb-24">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-blue-100 rounded-full text-[10px] font-bold uppercase tracking-widest mb-8 shadow-sm text-blue-600">
-            <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></span> Open Source ToolSuite
+      {/* Hero Section with Rive Integration */}
+      <main className="max-w-7xl mx-auto px-6 pt-12 pb-32 relative z-10">
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-blue-100 rounded-full text-[10px] font-bold uppercase tracking-widest mb-8 shadow-sm text-blue-600">
+              <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></span> Intelligent ToolSuite
+            </div>
+            <h2 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.95] mb-8 text-slate-900">
+              Universal Tools <br />
+              <span className="text-slate-300">Zero Complexity.</span>
+            </h2>
+            <p className="text-lg text-slate-500 font-medium leading-relaxed mb-12 max-w-xl">
+              A high-performance collection of developer utilities built for speed. 
+              Lightweight, portable, and refined for the modern web.
+            </p>
+            <div className="flex flex-wrap items-center gap-4">
+              <button 
+                onClick={() => document.getElementById('bricks-grid')?.scrollIntoView({ behavior: 'smooth' })}
+                className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold shadow-xl shadow-slate-900/20 hover:shadow-2xl hover:bg-blue-600 hover:scale-[1.02] transition-all flex items-center gap-2 group"
+              >
+                Explore Bricks <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+              <div className="px-6 py-4 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-slate-400 flex items-center gap-3">
+                <Monitor className="w-4 h-4" /> v1.0 Stable
+              </div>
+            </div>
           </div>
-          <h2 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.95] mb-8 text-slate-900">
-            Universal Tools <br />
-            <span className="text-slate-300">Zero Complexity.</span>
-          </h2>
-          <p className="text-lg md:text-xl text-slate-500 font-medium leading-relaxed max-w-2xl mb-12">
-            A high-performance collection of developer utilities built for speed. 
-            Lightweight, portable, and refined for the modern web.
-          </p>
-          <div className="flex flex-wrap items-center gap-4">
-            <button 
-              onClick={() => document.getElementById('bricks-grid')?.scrollIntoView({ behavior: 'smooth' })}
-              className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold shadow-xl shadow-slate-900/20 hover:shadow-2xl hover:bg-blue-600 hover:scale-[1.02] transition-all flex items-center gap-2 group"
-            >
-              Launch a Brick <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
-            <div className="px-6 py-4 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-slate-400 flex items-center gap-3">
-              <Monitor className="w-4 h-4" /> v1.0 Stable
+
+          {/* Rive Cat Robot Column */}
+          <div className="relative aspect-square lg:aspect-auto lg:h-[600px] bg-white/40 rounded-[48px] border border-white shadow-2xl shadow-blue-500/5 backdrop-blur-sm group overflow-hidden">
+            <Rive
+              src="https://cdn.rive.app/animations/vehicles.riv" // Placeholder Rive animation
+              layout={new RiveLayout({ fit: Fit.Contain, alignment: Alignment.Center })}
+              className="w-full h-full transform transition-transform duration-1000 group-hover:scale-110"
+            />
+            {/* Overlay hint */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-4 py-2 bg-slate-900/10 backdrop-blur-md rounded-full text-[10px] font-bold text-slate-400 uppercase tracking-widest border border-white/20">
+              Interactive Component
             </div>
           </div>
         </section>
 
-        {/* Clean Tools Grid */}
+        {/* Tools Grid */}
         <section id="bricks-grid">
           <div className="flex items-center gap-4 mb-10">
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.3em] whitespace-nowrap">The Collection</h3>
@@ -91,17 +105,14 @@ export default function App() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Active Tool: CodeSlash */}
             <div 
               onClick={() => setCurrentTool('codeslash')}
               className="group bg-white p-8 rounded-[32px] border border-slate-200 hover:border-blue-500/50 hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              
               <div className="w-14 h-14 bg-slate-900 text-white rounded-2xl flex items-center justify-center mb-10 group-hover:bg-blue-600 group-hover:scale-110 transition-all duration-500 shadow-lg shadow-slate-900/10">
                 <Code2 className="w-7 h-7" />
               </div>
-
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-2xl font-black tracking-tight group-hover:text-blue-600 transition-colors">CodeSlash</h3>
@@ -117,7 +128,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Placeholder Tool */}
             <div className="group bg-white/40 p-8 rounded-[32px] border border-dashed border-slate-300 flex flex-col items-center justify-center text-center opacity-60">
               <div className="w-14 h-14 bg-slate-100 text-slate-400 rounded-2xl flex items-center justify-center mb-6">
                 <Plus className="w-6 h-6" />
@@ -131,7 +141,7 @@ export default function App() {
         </section>
       </main>
 
-      {/* Simplified Footer */}
+      {/* Footer */}
       <footer className="bg-white border-t border-slate-200 py-12 relative z-10">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-3 opacity-40">

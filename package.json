@@ -10,20 +10,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@rive-app/react-canvas": "^4.28.4",
+    "clsx": "^2.1.0",
+    "framer-motion": "^11.0.8",
+    "lucide-react": "^0.344.0",
+    "prismjs": "^1.30.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "lucide-react": "^0.344.0",
-    "framer-motion": "^11.0.8",
-    "clsx": "^2.1.0",
-    "tailwind-merge": "^2.2.1",
     "react-router-dom": "^6.22.3",
-    "prismjs": "^1.30.0",
-    "react-simple-code-editor": "^0.14.1"
+    "react-simple-code-editor": "^0.14.1",
+    "tailwind-merge": "^2.2.1"
   },
   "devDependencies": {
+    "@types/prismjs": "^1.26.6",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
-    "@types/prismjs": "^1.26.6",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.2.1",
