@@ -13,7 +13,6 @@ import {
   Plus,
   ArrowRight,
   ArrowUpRight,
-  Github,
   Monitor,
   FileCode,
   Coffee
@@ -74,7 +73,7 @@ function Dashboard() {
               rel="noreferrer"
               className="hidden sm:flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors"
             >
-              <Github className="w-4 h-4" /> Source
+              Source
             </a>
             <button className="p-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all shadow-sm">
               <Settings className="w-4 h-4 text-slate-500" />
