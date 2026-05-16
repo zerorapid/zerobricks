@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import CodeSlash from './tools/CodeSlash';
 import SVG2Code from './tools/svg2code/SVG2Code';
+import CoffeeNote from './tools/CoffeeNote';
 import { DotLottiePlayer } from '@dotlottie/react-player';
 import '@dotlottie/react-player/dist/index.css';
 import Rive, { Layout as RiveLayout, Fit, Alignment } from '@rive-app/react-canvas';
@@ -14,10 +15,11 @@ import {
   ArrowUpRight,
   Github,
   Monitor,
-  FileCode
+  FileCode,
+  Coffee
 } from 'lucide-react';
 
-type ToolType = 'dashboard' | 'codeslash' | 'svg2code';
+type ToolType = 'dashboard' | 'codeslash' | 'svg2code' | 'coffeenote';
 
 export default function App() {
   return (
@@ -26,6 +28,7 @@ export default function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/codeslash" element={<CodeSlashWrapper />} />
         <Route path="/svg2code" element={<SVG2CodeWrapper />} />
+        <Route path="/coffeenote" element={<CoffeeNoteWrapper />} />
       </Routes>
     </Router>
   );
@@ -39,6 +42,11 @@ function CodeSlashWrapper() {
 function SVG2CodeWrapper() {
   const navigate = useNavigate();
   return <SVG2Code onBack={() => navigate('/')} />;
+}
+
+function CoffeeNoteWrapper() {
+  const navigate = useNavigate();
+  return <CoffeeNote onBack={() => navigate('/')} />;
 }
 
 function Dashboard() {
@@ -172,6 +180,29 @@ function Dashboard() {
                 </p>
                 <div className="flex items-center gap-4">
                   <span className="px-3 py-1 bg-purple-50 text-purple-600 text-[10px] font-bold rounded-lg border border-purple-100">NEW</span>
+                  <span className="px-3 py-1 bg-slate-50 text-slate-400 text-[10px] font-bold rounded-lg">V1.0</span>
+                </div>
+              </div>
+            </div>
+
+            <div 
+              onClick={() => navigate('/coffeenote')}
+              className="group bg-white p-8 rounded-[32px] border border-slate-200 hover:border-orange-500/50 hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-orange-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="w-14 h-14 bg-[#26384A] rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-500 shadow-lg">
+                <Coffee className="w-6 h-6 text-[#FDFBF6]" />
+              </div>
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-2xl font-black tracking-tight group-hover:text-orange-600 transition-colors">CoffeeNote</h3>
+                  <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-orange-600 transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </div>
+                <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8">
+                  A minimalist writing space designed for focus. Take quick notes, format them easily, and export to TXT, Word, or PDF.
+                </p>
+                <div className="flex items-center gap-4">
+                  <span className="px-3 py-1 bg-orange-50 text-orange-600 text-[10px] font-bold rounded-lg border border-orange-100">PRODUCTIVE</span>
                   <span className="px-3 py-1 bg-slate-50 text-slate-400 text-[10px] font-bold rounded-lg">V1.0</span>
                 </div>
               </div>

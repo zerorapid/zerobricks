@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-app-bg: #FDFBF6;
+  --color-app-secondary: #EFE3D3;
+  --color-app-accent: #D9C4AA;
+  --color-app-blue: #4F6D88;
+  --color-app-navy: #26384A;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
