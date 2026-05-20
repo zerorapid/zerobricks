@@ -732,7 +732,10 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
               Optimal engine status
             </span>
           </div>
-          <span className="text-[10px] font-bold uppercase tracking-widest">Built with Sleek Customization Engine & Zepto Colors</span>
+          <span className="text-[10px] font-bold tracking-widest flex items-center justify-center gap-1.5">
+            <span>Built with ❤️ by</span>
+            <a href="https://www.zerorapid.in" target="_blank" rel="noopener noreferrer" className="text-slate-700 hover:text-blue-600 hover:underline transition-colors font-extrabold">ZeroRapid</a>
+          </span>
         </div>
       </footer>
 
