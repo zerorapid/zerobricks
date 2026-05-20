@@ -14,7 +14,9 @@ import {
   ChevronLeft,
   Link2,
   Type,
-  Trash2
+  Trash2,
+  Activity,
+  Sparkles
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { v4 as uuidv4 } from 'uuid';
@@ -269,6 +271,19 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
     setIsCustomizing(false);
   };
 
+  // Bulk statistics calculations
+  const avgSlugLength = bulkItems.length > 0 
+    ? Math.round(bulkItems.reduce((acc, item) => acc + item.slug.length, 0) / bulkItems.length)
+    : 0;
+
+  const longestSlugItem = bulkItems.length > 0
+    ? [...bulkItems].sort((a, b) => b.slug.length - a.slug.length)[0]
+    : null;
+
+  const shortestSlugItem = bulkItems.length > 0
+    ? [...bulkItems].sort((a, b) => a.slug.length - b.slug.length)[0]
+    : null;
+
   return (
     <div className="h-screen bg-[#F8FAFC] text-slate-900 font-sans flex flex-col overflow-hidden">
       {/* Navigation Bar / Sleek Header */}
@@ -321,7 +336,7 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
       <main className="flex-grow p-4 sm:p-6 grid grid-cols-12 gap-4 sm:gap-6 max-w-[1536px] mx-auto w-full overflow-hidden">
         
         {/* Left Side Content Column */}
-        <div className={`col-span-12 ${activeTab === 'single' ? 'lg:col-span-8' : 'lg:col-span-12'} flex flex-col gap-4 overflow-hidden h-full`}>
+        <div className="col-span-12 lg:col-span-8 flex flex-col gap-4 overflow-hidden h-full">
           
           <AnimatePresence mode="wait">
             {activeTab === 'single' ? (
@@ -358,7 +373,7 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
                     <button 
                       onClick={handleCopy}
                       disabled={!slug}
-                      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-xl font-bold text-sm sm:text-base transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:grayscale cursor-pointer shadow-sm"
+                      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-xl font-bold text-sm sm:text-base transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:grayscale cursor-pointer shadow-sm animate-pulse-slow"
                     >
                       <Copy className="w-4 h-4" />
                       <span>Copy Slug to Clipboard</span>
@@ -535,13 +550,16 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
           </AnimatePresence>
 
           {/* Fully Configurable Engine Panel */}
-          <div className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm shrink-0">
+          <div className="bg-gradient-to-r from-blue-50/50 via-white to-yellow-50/30 border border-blue-100 rounded-2xl p-4 sm:p-5 shadow-xs shrink-0">
             <div className="flex justify-between items-center mb-4">
               <div>
-                <h2 className="text-base font-bold text-slate-900">Customization Engine</h2>
+                <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                  <Settings2 className="w-4 h-4 text-blue-600" />
+                  <span>Customization Engine</span>
+                </h2>
                 <p className="text-[11px] text-slate-500">Fine-tune formatting, translation presets, prefix structure, and mock details.</p>
               </div>
-              <Settings2 className="w-4 h-4 text-slate-400 shrink-0" />
+              <Sparkles className="w-4 h-4 text-yellow-500 animate-pulse" />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -572,7 +590,7 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
                 </div>
 
                 <div className="space-y-1.5 pt-1">
-                  <label className="flex items-center justify-between py-1.5 px-2 bg-slate-50 rounded-lg border border-slate-200 cursor-pointer hover:border-slate-300">
+                  <label className="flex items-center justify-between py-1.5 px-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-slate-300">
                     <span className="text-[10px] font-semibold text-slate-600">Force Lowercase</span>
                     <input
                       type="checkbox"
@@ -581,7 +599,7 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
                       className="w-3.5 h-3.5 accent-blue-600 cursor-pointer"
                     />
                   </label>
-                  <label className="flex items-center justify-between py-1.5 px-2 bg-slate-50 rounded-lg border border-slate-200 cursor-pointer hover:border-slate-300">
+                  <label className="flex items-center justify-between py-1.5 px-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-slate-300">
                     <span className="text-[10px] font-semibold text-slate-600">Trim Outside Boundaries</span>
                     <input
                       type="checkbox"
@@ -601,10 +619,10 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
                   {/* Accent / Diacritic removal toggler */}
                   <button 
                     onClick={() => setOptions({ ...options, removeAccents: !options.removeAccents })}
-                    className="w-full flex items-center justify-between py-1.5 px-2 bg-slate-50 rounded-lg border border-slate-200 hover:border-slate-300 transition-colors text-left cursor-pointer"
+                    className="w-full flex items-center justify-between py-1.5 px-2 bg-white rounded-lg border border-slate-200 hover:border-slate-300 transition-colors text-left cursor-pointer"
                   >
                     <div className="flex items-center gap-2">
-                      <Languages className="w-3.5 h-3.5 text-slate-400" />
+                      <Languages className="w-3.5 h-3.5 text-blue-500" />
                       <span className="text-[10px] font-semibold text-slate-700">Clean Accents (é → e)</span>
                     </div>
                     <div className={`w-7 h-3.5 rounded-full relative transition-colors shrink-0 ${options.removeAccents ? 'bg-blue-600' : 'bg-slate-300'}`}>
@@ -615,10 +633,10 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
                   {/* Stop words remover */}
                   <button 
                     onClick={() => setOptions({ ...options, removeStopWords: !options.removeStopWords })}
-                    className="w-full flex items-center justify-between py-1.5 px-2 bg-slate-50 rounded-lg border border-slate-200 hover:border-slate-300 transition-colors text-left cursor-pointer"
+                    className="w-full flex items-center justify-between py-1.5 px-2 bg-white rounded-lg border border-slate-200 hover:border-slate-300 transition-colors text-left cursor-pointer"
                   >
                     <div className="flex items-center gap-2">
-                      <Trash2 className="w-3.5 h-3.5 text-slate-400" />
+                      <Trash2 className="w-3.5 h-3.5 text-yellow-500" />
                       <span className="text-[10px] font-semibold text-slate-700">Remove Stop Words</span>
                     </div>
                     <div className={`w-7 h-3.5 rounded-full relative transition-colors shrink-0 ${options.removeStopWords ? 'bg-blue-600' : 'bg-slate-300'}`}>
@@ -628,8 +646,8 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
                 </div>
 
                 <div className="pt-1">
-                  <span className="text-[9px] text-slate-400 leading-relaxed block">
-                    Stop words: {Array.from(COMMON_STOP_WORDS).slice(0, 7).join(', ')}...
+                  <span className="text-[9px] text-slate-400 leading-relaxed block font-mono">
+                    Stop words: {Array.from(COMMON_STOP_WORDS).slice(0, 5).join(', ')}...
                   </span>
                 </div>
               </div>
@@ -644,7 +662,7 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
                     <select
                       value={options.prefixType}
                       onChange={(e) => setOptions({ ...options, prefixType: e.target.value as any })}
-                      className="w-full px-2 py-1 bg-slate-50 border border-slate-200 rounded-lg text-[10px] font-medium text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-[10px] font-medium text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     >
                       <option value="none">No Prefix (Default)</option>
                       <option value="date-ymd">Year-Month-Day (YYYY-MM-DD)</option>
@@ -659,7 +677,7 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
                       value={options.customPrefix}
                       onChange={(e) => setOptions({ ...options, customPrefix: e.target.value })}
                       placeholder="Prefix (e.g. blog, faq)"
-                      className="w-full px-2 py-1 bg-slate-50 border border-slate-200 rounded-lg text-[10px] font-mono text-slate-700"
+                      className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-[10px] font-mono text-slate-700"
                     />
                   )}
 
@@ -672,7 +690,7 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
                         value={options.domainName}
                         onChange={(e) => setOptions({ ...options, domainName: e.target.value })}
                         placeholder="yoursite.com"
-                        className="w-full pl-14 pr-2 py-1 bg-slate-50 border border-slate-200 rounded-lg text-[10px] font-semibold text-slate-700 focus:outline-none"
+                        className="w-full pl-14 pr-2 py-1 bg-white border border-slate-200 rounded-lg text-[10px] font-semibold text-slate-700 focus:outline-none"
                       />
                     </div>
                   </div>
@@ -682,15 +700,18 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
           </div>
         </div>
 
-        {/* Right Side Sidebar (only for single tab) */}
-        {activeTab === 'single' && (
-          <div className="col-span-12 lg:col-span-4 flex flex-col gap-4 overflow-hidden h-full">
-            {/* SEO Score Visual Audit Compliance Panel */}
-            <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col overflow-hidden h-full">
-              <div className="flex justify-between items-center mb-4 border-b border-slate-100 pb-3 shrink-0">
-                <h3 className="text-slate-500 text-xs font-bold uppercase tracking-widest">SEO Compliance Audit</h3>
+        {/* Right Side Sidebar */}
+        <div className="col-span-12 lg:col-span-4 flex flex-col gap-4 overflow-hidden h-full">
+          {activeTab === 'single' ? (
+            /* SEO Score Visual Audit Compliance Panel */
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 text-white shadow-sm flex flex-col overflow-hidden flex-grow">
+              <div className="flex justify-between items-center mb-4 border-b border-slate-800 pb-3 shrink-0">
+                <h3 className="text-blue-400 text-xs font-bold uppercase tracking-widest flex items-center gap-1.5">
+                  <Activity className="w-4 h-4 text-yellow-400 animate-pulse" />
+                  SEO Compliance Audit
+                </h3>
                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                  auditResult.score >= 80 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                  auditResult.score >= 80 ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
                 }`}>
                   {auditResult.grade}
                 </span>
@@ -700,38 +721,104 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
               <div className="flex items-center gap-4 mb-4 shrink-0">
                 <div className="relative flex items-center justify-center shrink-0">
                   <svg className="w-14 h-14">
-                    <circle className="text-slate-100" strokeWidth="5" stroke="currentColor" fill="transparent" r="22" cx="28" cy="28" />
-                    <circle className={auditResult.score >= 80 ? "text-green-500" : "text-yellow-500"} strokeWidth="5" strokeDasharray={138.2} strokeDashoffset={138.2 - (138.2 * auditResult.score) / 100} strokeLinecap="round" stroke="currentColor" fill="transparent" r="22" cx="28" cy="28" />
+                    <circle className="text-slate-800" strokeWidth="5" stroke="currentColor" fill="transparent" r="22" cx="28" cy="28" />
+                    <circle className={auditResult.score >= 80 ? "text-green-400" : "text-yellow-400"} strokeWidth="5" strokeDasharray={138.2} strokeDashoffset={138.2 - (138.2 * auditResult.score) / 100} strokeLinecap="round" stroke="currentColor" fill="transparent" r="22" cx="28" cy="28" />
                   </svg>
-                  <span className="absolute text-xs font-bold text-slate-800">{auditResult.score}%</span>
+                  <span className="absolute text-xs font-bold text-yellow-400">{auditResult.score}%</span>
                 </div>
                 <div>
-                  <h4 className="font-bold text-xs text-slate-800">Crawler Visibility Index</h4>
+                  <h4 className="font-bold text-xs text-white">Crawler Visibility Index</h4>
                   <p className="text-[10px] text-slate-400 mt-0.5">Calculated based on search guidelines.</p>
                 </div>
               </div>
 
               {/* Dynamic checks */}
-              <div className="space-y-3 flex-grow overflow-y-auto pr-1">
+              <div className="space-y-3 flex-grow overflow-y-auto pr-1 text-slate-300">
                 {auditResult.checks.map(item => (
                   <div key={item.id} className="flex gap-2 text-xs">
                     {item.passed ? (
-                      <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-green-400 shrink-0 mt-0.5" />
                     ) : (
-                      <AlertCircle className="w-4 h-4 text-slate-300 shrink-0 mt-0.5" />
+                      <AlertCircle className="w-4 h-4 text-slate-600 shrink-0 mt-0.5" />
                     )}
                     <div>
-                      <span className={`font-semibold ${item.passed ? 'text-slate-700' : 'text-slate-400'}`}>
+                      <span className={`font-semibold ${item.passed ? 'text-slate-100' : 'text-slate-500'}`}>
                         {item.label}
                       </span>
-                      <p className="text-[10px] text-slate-400 mt-0.5 leading-relaxed">{item.tip}</p>
+                      <p className="text-[10px] text-slate-500 mt-0.5 leading-relaxed">{item.tip}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
+          ) : (
+            /* Bulk Statistics Panel */
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 text-white shadow-sm flex flex-col overflow-hidden flex-grow">
+              <div className="flex justify-between items-center mb-4 border-b border-slate-800 pb-3 shrink-0">
+                <h3 className="text-blue-400 text-xs font-bold uppercase tracking-widest flex items-center gap-1.5">
+                  <Activity className="w-4 h-4 text-yellow-400 animate-pulse" />
+                  Batch Slugs Analytics
+                </h3>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                  Active
+                </span>
+              </div>
+
+              <div className="space-y-4 flex-grow overflow-y-auto pr-1">
+                {/* Stat 1 */}
+                <div className="bg-slate-800/40 border border-slate-800 rounded-xl p-3">
+                  <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Total Rows Processed</span>
+                  <div className="text-xl font-bold text-white mt-1">{bulkItems.length}</div>
+                </div>
+
+                {/* Stat 2 */}
+                <div className="bg-slate-800/40 border border-slate-800 rounded-xl p-3">
+                  <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Average Slug Length</span>
+                  <div className="text-xl font-bold text-yellow-400 mt-1">{avgSlugLength} chars</div>
+                </div>
+
+                {/* Longest Slug */}
+                {longestSlugItem && (
+                  <div className="bg-slate-800/40 border border-slate-800 rounded-xl p-3">
+                    <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Longest Slug ({longestSlugItem.slug.length} chars)</span>
+                    <p className="text-xs font-mono text-blue-300 truncate mt-1" title={longestSlugItem.slug}>
+                      {longestSlugItem.slug}
+                    </p>
+                  </div>
+                )}
+
+                {/* Shortest Slug */}
+                {shortestSlugItem && (
+                  <div className="bg-slate-800/40 border border-slate-800 rounded-xl p-3">
+                    <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Shortest Slug ({shortestSlugItem.slug.length} chars)</span>
+                    <p className="text-xs font-mono text-blue-300 truncate mt-1" title={shortestSlugItem.slug}>
+                      {shortestSlugItem.slug}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Ad Space Placeholder / Sponsor Block */}
+          <div className="bg-gradient-to-br from-blue-500/5 via-yellow-500/5 to-amber-500/5 border border-dashed border-blue-200 rounded-2xl p-4 flex flex-col justify-center items-center text-center shrink-0 min-h-[140px] relative overflow-hidden group">
+            {/* Background Accent Gradients */}
+            <div className="absolute top-0 right-0 w-24 h-24 bg-yellow-400/10 rounded-full blur-xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-24 h-24 bg-blue-500/10 rounded-full blur-xl pointer-events-none" />
+
+            <span className="bg-yellow-400/20 text-yellow-800 border border-yellow-300/40 px-2 py-0.5 rounded text-[8px] font-bold tracking-widest uppercase mb-1.5 z-10">
+              Sponsor Showcase
+            </span>
+            <h4 className="text-xs font-extrabold text-slate-700 tracking-tight z-10">Premium Advertisement Slot</h4>
+            <p className="text-[9px] text-slate-400 mt-1 max-w-[200px] leading-normal z-10">
+              Reserved space for sponsorships, carbon ads, or promotional banners.
+            </p>
+            
+            <button className="bg-blue-600 hover:bg-blue-700 text-white text-[9px] font-bold px-3 py-1 rounded-lg mt-3 transition-colors shadow-xs z-10 cursor-pointer">
+              Configure Ad Slots
+            </button>
           </div>
-        )}
+        </div>
       </main>
 
       {/* Feature Blocks footer section */}
