@@ -60,7 +60,7 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
   const [options, setOptions] = useState<SlugOptions>({
     separator: '-',
     lowercase: true,
-    removeStopWords: false,
+    removeStopWords: true,
     trim: true,
     removeAccents: true,
     prefixType: 'none',
@@ -197,25 +197,25 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
         id: 'separator',
         label: 'Hyphen Separators Preferred',
         passed: options.separator === '-',
-        tip: options.separator === '-' ? 'Google explicitly recommends using hyphens (-) over underscores.' : 'Switch separator to hyphens for improved SEO.'
+        tip: 'Google explicitly recommends using hyphens (-) over underscores.'
       },
       {
         id: 'lowercase',
         label: 'Casing is Lowercase',
         passed: currentSlug === currentSlug.toLowerCase(),
-        tip: currentSlug !== currentSlug.toLowerCase() ? 'Contains uppercase letters. Standardize to lowercase to avoid duplicate page errors.' : 'Universal lowercase standard.'
+        tip: 'Universal lowercase standard.'
       },
       {
         id: 'stopwords',
         label: 'Stop Words Filtered',
         passed: options.removeStopWords,
-        tip: !options.removeStopWords ? 'Enable stop word filtering to make the slug shorter and punchier.' : 'Removes filler words for high SEO relevance.'
+        tip: 'Removes filler words automatically for high SEO relevance.'
       },
       {
         id: 'accents',
         label: 'Accent Transliteration Clean',
         passed: options.removeAccents,
-        tip: !options.removeAccents ? 'Accented letters present. Converting to ASCII letters guarantees maximum compatibility.' : 'Clean letters only.'
+        tip: 'Diacritics and accents are cleaned automatically for maximum compatibility.'
       }
     ];
 
@@ -547,158 +547,7 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
                 )}
               </motion.div>
             )}
-          </AnimatePresence>
-
-          {/* Fully Configurable Engine Panel */}
-          <div className="bg-gradient-to-r from-blue-50/50 via-white to-yellow-50/30 border border-blue-100 rounded-2xl p-4 sm:p-5 shadow-xs shrink-0">
-            <div className="flex justify-between items-center mb-4">
-              <div>
-                <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-                  <Settings2 className="w-4 h-4 text-blue-600" />
-                  <span>Customization Engine</span>
-                </h2>
-                <p className="text-[11px] text-slate-500">Fine-tune formatting, translation presets, prefix structure, and mock details.</p>
-              </div>
-              <Sparkles className="w-4 h-4 text-yellow-500 animate-pulse" />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {/* Block 1: Basic Formatting Separators */}
-              <div className="space-y-3 border-b md:border-b-0 md:border-r border-slate-100 pb-3 md:pb-0 pr-0 md:pr-4">
-                <div className="flex items-center gap-2 text-slate-700">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Formatting Separator</span>
-                </div>
-                <div className="grid grid-cols-2 gap-1.5">
-                  {[
-                    { label: 'Hyphen (-)', value: '-' },
-                    { label: 'Underscore (_)', value: '_' },
-                    { label: 'Dot (.)', value: '.' },
-                    { label: 'None []', value: '' }
-                  ].map((item) => (
-                    <button
-                      key={item.value}
-                      onClick={() => setOptions({ ...options, separator: item.value })}
-                      className={`py-1 rounded-lg font-bold text-[10px] transition-all border-2 cursor-pointer ${
-                        options.separator === item.value 
-                          ? 'border-blue-600 text-blue-600 bg-blue-50/50' 
-                          : 'border-slate-100 bg-slate-50 text-slate-500 hover:border-slate-200'
-                      }`}
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="space-y-1.5 pt-1">
-                  <label className="flex items-center justify-between py-1.5 px-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-slate-300">
-                    <span className="text-[10px] font-semibold text-slate-600">Force Lowercase</span>
-                    <input
-                      type="checkbox"
-                      checked={options.lowercase}
-                      onChange={(e) => setOptions({ ...options, lowercase: e.target.checked })}
-                      className="w-3.5 h-3.5 accent-blue-600 cursor-pointer"
-                    />
-                  </label>
-                  <label className="flex items-center justify-between py-1.5 px-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-slate-300">
-                    <span className="text-[10px] font-semibold text-slate-600">Trim Outside Boundaries</span>
-                    <input
-                      type="checkbox"
-                      checked={options.trim}
-                      onChange={(e) => setOptions({ ...options, trim: e.target.checked })}
-                      className="w-3.5 h-3.5 accent-blue-600 cursor-pointer"
-                    />
-                  </label>
-                </div>
-              </div>
-
-              {/* Block 2: Transliteration & Filters */}
-              <div className="space-y-3 border-b lg:border-b-0 lg:border-r border-slate-100 pb-3 lg:pb-0 pr-0 lg:pr-4">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Localization & Stop Words</span>
-                
-                <div className="space-y-2">
-                  {/* Accent / Diacritic removal toggler */}
-                  <button 
-                    onClick={() => setOptions({ ...options, removeAccents: !options.removeAccents })}
-                    className="w-full flex items-center justify-between py-1.5 px-2 bg-white rounded-lg border border-slate-200 hover:border-slate-300 transition-colors text-left cursor-pointer"
-                  >
-                    <div className="flex items-center gap-2">
-                      <Languages className="w-3.5 h-3.5 text-blue-500" />
-                      <span className="text-[10px] font-semibold text-slate-700">Clean Accents (é → e)</span>
-                    </div>
-                    <div className={`w-7 h-3.5 rounded-full relative transition-colors shrink-0 ${options.removeAccents ? 'bg-blue-600' : 'bg-slate-300'}`}>
-                      <div className={`absolute top-0.5 w-2.5 h-2.5 bg-white rounded-full transition-all ${options.removeAccents ? 'right-0.5' : 'left-0.5'}`} />
-                    </div>
-                  </button>
-
-                  {/* Stop words remover */}
-                  <button 
-                    onClick={() => setOptions({ ...options, removeStopWords: !options.removeStopWords })}
-                    className="w-full flex items-center justify-between py-1.5 px-2 bg-white rounded-lg border border-slate-200 hover:border-slate-300 transition-colors text-left cursor-pointer"
-                  >
-                    <div className="flex items-center gap-2">
-                      <Trash2 className="w-3.5 h-3.5 text-yellow-500" />
-                      <span className="text-[10px] font-semibold text-slate-700">Remove Stop Words</span>
-                    </div>
-                    <div className={`w-7 h-3.5 rounded-full relative transition-colors shrink-0 ${options.removeStopWords ? 'bg-blue-600' : 'bg-slate-300'}`}>
-                      <div className={`absolute top-0.5 w-2.5 h-2.5 bg-white rounded-full transition-all ${options.removeStopWords ? 'right-0.5' : 'left-0.5'}`} />
-                    </div>
-                  </button>
-                </div>
-
-                <div className="pt-1">
-                  <span className="text-[9px] text-slate-400 leading-relaxed block font-mono">
-                    Stop words: {Array.from(COMMON_STOP_WORDS).slice(0, 5).join(', ')}...
-                  </span>
-                </div>
-              </div>
-
-              {/* Block 3: Dynamic Prefix / Dynamic Suffix Setup */}
-              <div className="space-y-3">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Dynamic Prefix & Host</span>
-                    
-                <div className="space-y-2">
-                  <div>
-                    <label className="block text-[9px] uppercase font-bold text-slate-400 mb-0.5">Prefix Format</label>
-                    <select
-                      value={options.prefixType}
-                      onChange={(e) => setOptions({ ...options, prefixType: e.target.value as any })}
-                      className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-[10px] font-medium text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    >
-                      <option value="none">No Prefix (Default)</option>
-                      <option value="date-ymd">Year-Month-Day (YYYY-MM-DD)</option>
-                      <option value="date-ym">Year-Month (YYYY-MM)</option>
-                      <option value="custom">Custom Text Prefix</option>
-                    </select>
-                  </div>
-
-                  {options.prefixType === 'custom' && (
-                    <input
-                      type="text"
-                      value={options.customPrefix}
-                      onChange={(e) => setOptions({ ...options, customPrefix: e.target.value })}
-                      placeholder="Prefix (e.g. blog, faq)"
-                      className="w-full px-2 py-1 bg-white border border-slate-200 rounded-lg text-[10px] font-mono text-slate-700"
-                    />
-                  )}
-
-                  <div>
-                    <label className="block text-[9px] uppercase font-bold text-slate-400 mb-0.5">Customize Domain</label>
-                    <div className="relative">
-                      <span className="absolute left-2 top-1 text-slate-400 text-[10px] font-mono">https://</span>
-                      <input
-                        type="text"
-                        value={options.domainName}
-                        onChange={(e) => setOptions({ ...options, domainName: e.target.value })}
-                        placeholder="yoursite.com"
-                        className="w-full pl-14 pr-2 py-1 bg-white border border-slate-200 rounded-lg text-[10px] font-semibold text-slate-700 focus:outline-none"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          </AnimatePresence>        </div>
 
         {/* Right Side Sidebar */}
         <div className="col-span-12 lg:col-span-4 flex flex-col gap-4 lg:overflow-hidden lg:h-full">
