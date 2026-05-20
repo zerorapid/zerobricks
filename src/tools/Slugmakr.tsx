@@ -285,7 +285,7 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
     : null;
 
   return (
-    <div className="h-screen bg-[#F8FAFC] text-slate-900 font-sans flex flex-col overflow-hidden">
+    <div className="min-h-screen lg:h-screen bg-[#F8FAFC] text-slate-900 font-sans flex flex-col lg:overflow-hidden">
       {/* Navigation Bar / Sleek Header */}
       <nav className="min-h-[4rem] bg-white border-b border-slate-200 flex flex-col md:flex-row items-center justify-between px-4 sm:px-8 py-3 md:py-0 gap-3 md:gap-0 shrink-0 shadow-xs">
         <div className="flex items-center gap-3">
@@ -333,10 +333,10 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
       </nav>
 
       {/* Main Grid Wrapper */}
-      <main className="flex-grow p-4 sm:p-6 grid grid-cols-12 gap-4 sm:gap-6 max-w-[1536px] mx-auto w-full overflow-hidden">
+      <main className="flex-grow p-4 sm:p-6 grid grid-cols-12 gap-4 sm:gap-6 max-w-[1536px] mx-auto w-full lg:overflow-hidden lg:h-full">
         
         {/* Left Side Content Column */}
-        <div className="col-span-12 lg:col-span-8 flex flex-col gap-4 overflow-hidden h-full">
+        <div className="col-span-12 lg:col-span-8 flex flex-col gap-4 lg:overflow-hidden lg:h-full">
           
           <AnimatePresence mode="wait">
             {activeTab === 'single' ? (
@@ -346,7 +346,7 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
-                className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col flex-grow overflow-hidden"
+                className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col flex-grow lg:overflow-hidden"
               >
                 <div className="flex justify-between items-start mb-4 shrink-0">
                   <div>
@@ -355,7 +355,7 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
                   </div>
                 </div>
                 
-                <div className="space-y-4 flex-grow overflow-y-auto pr-1">
+                <div className="space-y-4 lg:flex-grow lg:overflow-y-auto pr-1">
                   {/* Title Input area */}
                   <div>
                     <label htmlFor="title-input" className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Article or Page Title</label>
@@ -447,16 +447,16 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
-                className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col flex-grow overflow-hidden"
+                className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm flex flex-col flex-grow lg:overflow-hidden"
               >
                 <div className="shrink-0">
                   <h1 className="text-xl sm:text-2xl font-bold text-slate-900">Bulk & Batch Processor</h1>
                   <p className="text-xs sm:text-sm text-slate-500 mt-1">Produce and manage dozens of slugs at once. Perfect for CMS migrations, e-commerce imports, and marketing campaigns.</p>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mt-4 flex-grow overflow-hidden">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mt-4 lg:flex-grow lg:overflow-hidden">
                   {/* Multi-line input column */}
-                  <div className="flex flex-col h-full overflow-hidden">
+                  <div className="flex flex-col lg:h-full lg:overflow-hidden">
                     <label htmlFor="bulk-input" className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2 shrink-0">
                       Input Article Titles / Rows (one per line)
                     </label>
@@ -470,12 +470,12 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
                   </div>
 
                   {/* Production Real-time Outputs column */}
-                  <div className="flex flex-col h-full overflow-hidden">
+                  <div className="flex flex-col lg:h-full lg:overflow-hidden">
                     <label className="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2 flex justify-between shrink-0">
                       <span>Live Batch Slugs Preview</span>
                       <span className="text-blue-600 font-semibold lowercase">Total rows: {bulkItems.length}</span>
                     </label>
-                    <div className="bg-slate-900 rounded-xl p-4 border border-slate-800 overflow-y-auto flex-grow space-y-3 font-mono text-xs text-slate-200">
+                    <div className="bg-slate-900 rounded-xl p-4 border border-slate-800 overflow-y-auto h-48 lg:h-auto lg:flex-grow space-y-3 font-mono text-xs text-slate-200">
                       {bulkItems.length === 0 ? (
                         <div className="h-full flex flex-col items-center justify-center text-slate-500 py-12">
                           <FileText className="w-6 h-6 mb-2 text-slate-600" />
@@ -701,10 +701,10 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
         </div>
 
         {/* Right Side Sidebar */}
-        <div className="col-span-12 lg:col-span-4 flex flex-col gap-4 overflow-hidden h-full">
+        <div className="col-span-12 lg:col-span-4 flex flex-col gap-4 lg:overflow-hidden lg:h-full">
           {activeTab === 'single' ? (
             /* SEO Score Visual Audit Compliance Panel */
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 text-white shadow-sm flex flex-col overflow-hidden flex-grow">
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 text-white shadow-sm flex flex-col lg:overflow-hidden lg:flex-grow">
               <div className="flex justify-between items-center mb-4 border-b border-slate-800 pb-3 shrink-0">
                 <h3 className="text-blue-400 text-xs font-bold uppercase tracking-widest flex items-center gap-1.5">
                   <Activity className="w-4 h-4 text-yellow-400 animate-pulse" />
@@ -733,7 +733,7 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
               </div>
 
               {/* Dynamic checks */}
-              <div className="space-y-3 flex-grow overflow-y-auto pr-1 text-slate-300">
+              <div className="space-y-3 lg:flex-grow lg:overflow-y-auto pr-1 text-slate-300">
                 {auditResult.checks.map(item => (
                   <div key={item.id} className="flex gap-2 text-xs">
                     {item.passed ? (
@@ -753,7 +753,7 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
             </div>
           ) : (
             /* Bulk Statistics Panel */
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 text-white shadow-sm flex flex-col overflow-hidden flex-grow">
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 text-white shadow-sm flex flex-col lg:overflow-hidden lg:flex-grow">
               <div className="flex justify-between items-center mb-4 border-b border-slate-800 pb-3 shrink-0">
                 <h3 className="text-blue-400 text-xs font-bold uppercase tracking-widest flex items-center gap-1.5">
                   <Activity className="w-4 h-4 text-yellow-400 animate-pulse" />
@@ -764,7 +764,7 @@ export default function Slugmakr({ onBack }: { onBack: () => void }) {
                 </span>
               </div>
 
-              <div className="space-y-4 flex-grow overflow-y-auto pr-1">
+              <div className="space-y-4 lg:flex-grow lg:overflow-y-auto pr-1">
                 {/* Stat 1 */}
                 <div className="bg-slate-800/40 border border-slate-800 rounded-xl p-3">
                   <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Total Rows Processed</span>
