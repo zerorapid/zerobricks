@@ -22,9 +22,11 @@ import {
 
 type ToolType = 'dashboard' | 'codeslash' | 'svg2code' | 'coffeenote' | 'slugmakr';
 
+const BASE = import.meta.env.BASE_URL;
+
 export default function App() {
   return (
-    <Router basename="/zerobricks">
+    <Router basename={import.meta.env.VITE_BASE_PATH || "/zerobricks"}>
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/codeslash" element={<CodeSlashWrapper />} />
@@ -130,7 +132,7 @@ function Dashboard() {
             </div>
             
             <DotLottiePlayer
-              src={`/zerobricks/cat-meow.json?v=${Date.now()}`}
+              src={`${BASE}cat-meow.json?v=${Date.now()}`}
               autoplay
               loop
               style={{ width: '100%', height: '100%' }}
@@ -152,7 +154,7 @@ function Dashboard() {
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="w-14 h-14 bg-slate-900 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-500 shadow-lg overflow-hidden">
-                <img src="/zerobricks/codeslash_icon_only.svg" alt="CodeSlash" className="w-full h-full object-cover" />
+                <img src={`${BASE}codeslash_icon_only.svg`} alt="CodeSlash" className="w-full h-full object-cover" />
               </div>
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">
@@ -175,7 +177,7 @@ function Dashboard() {
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="w-14 h-14 bg-slate-900 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-500 shadow-lg overflow-hidden">
-                <img src="/zerobricks/svg2code_icon_only.svg" alt="SVG2Code" className="w-full h-full object-cover" />
+                <img src={`${BASE}svg2code_icon_only.svg`} alt="SVG2Code" className="w-full h-full object-cover" />
               </div>
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">

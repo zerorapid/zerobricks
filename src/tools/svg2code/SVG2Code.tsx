@@ -142,7 +142,7 @@ export default function SVG2Code({ onBack }: { onBack: () => void }) {
             <ChevronLeft className="w-5 h-5" />
           </button>
           <div className="flex items-center gap-2 h-8">
-            <img src="/zerobricks/svg2code_full.svg" alt="SVG2Code" className="h-full w-auto" />
+            <img src={`${import.meta.env.BASE_URL}svg2code_full.svg`} alt="SVG2Code" className="h-full w-auto" />
           </div>
           <div className="h-6 w-[1px] bg-white/20 mx-2" />
           <div className="flex items-center gap-4">
