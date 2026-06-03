@@ -8,21 +8,14 @@ import Slugmakr from './tools/Slugmakr';
 import AgentManager from './tools/AgentManager';
 import { DotLottiePlayer } from '@dotlottie/react-player';
 import '@dotlottie/react-player/dist/index.css';
-import Rive, { Layout as RiveLayout, Fit, Alignment } from '@rive-app/react-canvas';
 import { 
-  Code2, 
-  Zap, 
   Settings,
-  Plus,
   ArrowRight,
   ArrowUpRight,
   Monitor,
-  FileCode,
-  Coffee,
-  Link2
+  Plus
 } from 'lucide-react';
-
-type ToolType = 'dashboard' | 'codeslash' | 'svg2code' | 'coffeenote' | 'slugmakr' | 'agentmanager';
+import { toolsConfig, ToolConfig } from './config/tools';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -32,79 +25,43 @@ export default function App() {
       <Router basename={import.meta.env.VITE_BASE_PATH || "/zerobricks"}>
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          <Route path="/codeslash" element={<CodeSlashWrapper />} />
-          <Route path="/svg2code" element={<SVG2CodeWrapper />} />
-          <Route path="/coffeenote" element={<CoffeeNoteWrapper />} />
-          <Route path="/slugmakr" element={<SlugmakrWrapper />} />
-          <Route path="/agentmanager" element={<AgentManagerWrapper />} />
+          <Route path="/codeslash" element={<ToolWrapper id="codeslash" Component={CodeSlash} />} />
+          <Route path="/svg2code" element={<ToolWrapper id="svg2code" Component={SVG2Code} />} />
+          <Route path="/coffeenote" element={<ToolWrapper id="coffeenote" Component={CoffeeNote} />} />
+          <Route path="/slugmakr" element={<ToolWrapper id="slugmakr" Component={Slugmakr} />} />
+          <Route path="/agentmanager" element={<ToolWrapper id="agentmanager" Component={AgentManager} />} />
         </Routes>
       </Router>
     </HelmetProvider>
   );
 }
 
-function CodeSlashWrapper() {
+// Universal Wrapper to safely inject SEO content below full-screen tools
+function ToolWrapper({ id, Component }: { id: string, Component: React.ElementType }) {
   const navigate = useNavigate();
+  const config = toolsConfig.find(t => t.id === id)!;
+  
   return (
-    <>
+    <div className="flex flex-col min-h-screen bg-slate-50 relative">
       <Helmet>
-        <title>CodeSlash - Live HTML/CSS/JS Editor | ZeroBricks</title>
-        <meta name="description" content="The ultimate prototyping editor. Write HTML/CSS/JS with a live preview and instant export capabilities." />
+        <title>{config.seoH1} | ZeroBricks</title>
+        <meta name="description" content={config.seoDescription} />
       </Helmet>
-      <CodeSlash onBack={() => navigate('/')} />
-    </>
-  );
-}
+      
+      {/* Tool Container (Restricted to 100vh so it acts like a full app) */}
+      <div className="h-screen w-full shrink-0">
+        <Component onBack={() => navigate('/')} />
+      </div>
 
-function SVG2CodeWrapper() {
-  const navigate = useNavigate();
-  return (
-    <>
-      <Helmet>
-        <title>SVG2Code - Convert SVG to React | ZeroBricks</title>
-        <meta name="description" content="Convert SVG files to clean React components or optimized SVG code instantly." />
-      </Helmet>
-      <SVG2Code onBack={() => navigate('/')} />
-    </>
-  );
-}
-
-function CoffeeNoteWrapper() {
-  const navigate = useNavigate();
-  return (
-    <>
-      <Helmet>
-        <title>CoffeeNote - Minimalist Notepad | ZeroBricks</title>
-        <meta name="description" content="A minimalist writing space designed for focus. Take quick notes and export to PDF." />
-      </Helmet>
-      <CoffeeNote onBack={() => navigate('/')} />
-    </>
-  );
-}
-
-function SlugmakrWrapper() {
-  const navigate = useNavigate();
-  return (
-    <>
-      <Helmet>
-        <title>Slugmakr - SEO URL Slug Generator | ZeroBricks</title>
-        <meta name="description" content="A clean and intuitive URL slug generator. Optimize titles into SEO-compliant paths." />
-      </Helmet>
-      <Slugmakr onBack={() => navigate('/')} />
-    </>
-  );
-}
-
-function AgentManagerWrapper() {
-  const navigate = useNavigate();
-  return (
-    <>
-      <Helmet>
-        <title>Agent Manager - Orchestrator | ZeroBricks</title>
-        <meta name="description" content="Intelligent human-in-the-loop orchestrator dashboard." />
-      </Helmet>
-      <AgentManager onBack={() => navigate('/')} />
-    </>
+      {/* SEO Content below the fold */}
+      <div className="max-w-4xl mx-auto py-24 px-6 w-full text-slate-900 border-t border-slate-200 mt-12 bg-white rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.03)] z-10 relative">
+        <h1 className="text-4xl font-black mb-10 tracking-tight">{config.seoH1}</h1>
+        <h2 className="text-2xl font-bold mb-6 text-slate-700">{config.seoH2}</h2>
+        <div className="prose prose-slate prose-lg max-w-none">
+          {config.seoContent}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -117,248 +74,172 @@ function Dashboard() {
         <meta name="description" content="A high-performance collection of developer utilities built for speed." />
       </Helmet>
       <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-blue-600/10 selection:text-blue-600 antialiased overflow-x-hidden">
-      {/* Background Decor */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[5%] left-[-5%] w-[400px] h-[400px] bg-purple-100/30 rounded-full blur-[100px]" />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] brightness-100 contrast-150" />
-      </div>
-
-      {/* Modern Navbar */}
-      <nav className="sticky top-0 bg-white/70 backdrop-blur-xl border-b border-slate-200/60 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3 group cursor-pointer" onClick={() => navigate('/')}>
-            <h1 className="text-2xl font-black tracking-tighter leading-none text-slate-900 group-hover:text-blue-600 transition-colors uppercase italic">ZeroBricks</h1>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <a 
-              href="https://github.com/zerorapid/zerobricks" 
-              target="_blank" 
-              rel="noreferrer"
-              className="hidden sm:flex items-center gap-2 px-4 py-2 text-xs font-bold text-slate-600 hover:text-slate-900 transition-colors"
-            >
-              Source
-            </a>
-            <button className="p-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all shadow-sm">
-              <Settings className="w-4 h-4 text-slate-500" />
-            </button>
-          </div>
+        {/* Background Decor */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+          <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-[120px]" />
+          <div className="absolute bottom-[5%] left-[-5%] w-[400px] h-[400px] bg-purple-100/30 rounded-full blur-[100px]" />
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] brightness-100 contrast-150" />
         </div>
-      </nav>
 
-      {/* Hero Section */}
-      <main className="max-w-7xl mx-auto px-6 pt-12 pb-32 relative z-10">
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
-          <div className="max-w-2xl relative z-20">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-blue-100 rounded-full text-[10px] font-bold uppercase tracking-widest mb-8 shadow-sm text-blue-600">
-              <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></span> Intelligent ToolSuite
+        {/* Modern Navbar */}
+        <nav className="sticky top-0 bg-white/70 backdrop-blur-xl border-b border-slate-200/60 z-50">
+          <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div className="flex items-center gap-3 group cursor-pointer" onClick={() => navigate('/')}>
+              <h1 className="text-2xl font-black tracking-tighter leading-none text-slate-900 group-hover:text-blue-600 transition-colors uppercase italic">ZeroBricks</h1>
             </div>
-            <h2 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.95] mb-8 text-slate-900">
-              Universal Tools <br />
-              <span className="text-slate-300">Zero Complexity.</span>
-            </h2>
-            <p className="text-lg text-slate-500 font-medium leading-relaxed mb-12 max-w-xl">
-              A high-performance collection of developer utilities built for speed. 
-              Lightweight, portable, and refined for the modern web.
-            </p>
-            <div className="flex flex-wrap items-center gap-4">
-              <button 
-                onClick={() => document.getElementById('bricks-grid')?.scrollIntoView({ behavior: 'smooth' })}
-                className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold shadow-xl shadow-slate-900/20 hover:shadow-2xl hover:bg-blue-600 hover:scale-[1.02] transition-all flex items-center gap-2 group"
+
+            <div className="flex items-center gap-4">
+              <a 
+                href="https://www.zerorapid.in" 
+                target="_blank" 
+                rel="noreferrer"
+                className="hidden sm:flex items-center gap-2 px-4 py-1.5 bg-slate-900 text-white text-xs font-bold rounded-lg hover:bg-blue-600 transition-colors shadow-md"
               >
-                Explore Bricks <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                Hire ZeroRapid Agency
+              </a>
+              <button className="p-2 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-all shadow-sm">
+                <Settings className="w-4 h-4 text-slate-500" />
               </button>
-              <div className="px-6 py-4 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-slate-400 flex items-center gap-3">
-                <Monitor className="w-4 h-4" /> v1.0 Stable
-              </div>
             </div>
           </div>
+        </nav>
 
-          {/* Large Interactive Robot Column */}
-          <div className="relative h-[400px] lg:h-[700px] flex items-center justify-center overflow-visible group">
-            {/* Floating Meow Bubble */}
-            <div className="absolute top-[25%] left-[55%] bg-slate-900 px-6 py-3 rounded-2xl rounded-bl-none shadow-2xl z-30 animate-bounce transition-all transform hover:scale-110">
-              <span className="text-lg font-black text-white tracking-tight flex items-center gap-2">
-                Meow! <span className="animate-pulse">🐾</span>
-              </span>
-              {/* Triangle pointer */}
-              <div className="absolute -bottom-2 left-0 w-0 h-0 border-t-[10px] border-t-slate-900 border-r-[10px] border-r-transparent"></div>
-            </div>
-            
-            <DotLottiePlayer
-              src={`${BASE}cat-meow.json?v=${Date.now()}`}
-              autoplay
-              loop
-              style={{ width: '100%', height: '100%' }}
-            />
-          </div>
-        </section>
-
-        {/* Tools Grid */}
-        <section id="bricks-grid" className="relative z-20">
-          <div className="flex items-center gap-4 mb-10">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.3em] whitespace-nowrap">The Collection</h3>
-            <div className="h-[1px] w-full bg-slate-200/60" />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div 
-              onClick={() => navigate('/codeslash')}
-              className="group bg-white p-8 rounded-[32px] border border-slate-200 hover:border-blue-500/50 hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer relative overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="w-14 h-14 bg-slate-900 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-500 shadow-lg overflow-hidden">
-                <img src={`${BASE}codeslash_icon_only.svg`} alt="CodeSlash" className="w-full h-full object-cover" />
+        {/* Hero Section */}
+        <main className="max-w-7xl mx-auto px-6 pt-12 pb-32 relative z-10">
+          <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
+            <div className="max-w-2xl relative z-20">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-blue-100 rounded-full text-[10px] font-bold uppercase tracking-widest mb-8 shadow-sm text-blue-600">
+                <span className="w-1.5 h-1.5 bg-blue-600 rounded-full animate-pulse"></span> Intelligent ToolSuite
               </div>
-              <div className="relative z-10">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-2xl font-black tracking-tight group-hover:text-blue-600 transition-colors">CodeSlash</h3>
-                  <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-blue-600 transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </div>
-                <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8">
-                  The ultimate prototyping editor. Write HTML/CSS/JS with a live preview and instant export capabilities.
-                </p>
-                <div className="flex items-center gap-4">
-                  <span className="px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-lg border border-blue-100">STABLE</span>
-                  <span className="px-3 py-1 bg-slate-50 text-slate-400 text-[10px] font-bold rounded-lg">V1.0</span>
-                </div>
-              </div>
-            </div>
-
-            <div 
-              onClick={() => navigate('/svg2code')}
-              className="group bg-white p-8 rounded-[32px] border border-slate-200 hover:border-purple-500/50 hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer relative overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="w-14 h-14 bg-slate-900 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-500 shadow-lg overflow-hidden">
-                <img src={`${BASE}svg2code_icon_only.svg`} alt="SVG2Code" className="w-full h-full object-cover" />
-              </div>
-              <div className="relative z-10">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-2xl font-black tracking-tight group-hover:text-purple-600 transition-colors">SVG2Code</h3>
-                  <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-purple-600 transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </div>
-                <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8">
-                  Convert SVG files to clean React components or optimized SVG code instantly with live preview and color editing.
-                </p>
-                <div className="flex items-center gap-4">
-                  <span className="px-3 py-1 bg-purple-50 text-purple-600 text-[10px] font-bold rounded-lg border border-purple-100">NEW</span>
-                  <span className="px-3 py-1 bg-slate-50 text-slate-400 text-[10px] font-bold rounded-lg">V1.0</span>
-                </div>
-              </div>
-            </div>
-
-            <div 
-              onClick={() => navigate('/coffeenote')}
-              className="group bg-white p-8 rounded-[32px] border border-slate-200 hover:border-orange-500/50 hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer relative overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-orange-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="w-14 h-14 bg-[#26384A] rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-500 shadow-lg">
-                <Coffee className="w-6 h-6 text-[#FDFBF6]" />
-              </div>
-              <div className="relative z-10">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-2xl font-black tracking-tight group-hover:text-orange-600 transition-colors">CoffeeNote</h3>
-                  <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-orange-600 transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </div>
-                <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8">
-                  A minimalist writing space designed for focus. Take quick notes, format them easily, and export to TXT, Word, or PDF.
-                </p>
-                <div className="flex items-center gap-4">
-                  <span className="px-3 py-1 bg-orange-50 text-orange-600 text-[10px] font-bold rounded-lg border border-orange-100">PRODUCTIVE</span>
-                  <span className="px-3 py-1 bg-slate-50 text-slate-400 text-[10px] font-bold rounded-lg">V1.0</span>
-                </div>
-              </div>
-            </div>
-
-            <div 
-              onClick={() => navigate('/slugmakr')}
-              className="group bg-white p-8 rounded-[32px] border border-slate-200 hover:border-sky-500/50 hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer relative overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-sky-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="w-14 h-14 bg-sky-600 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-500 shadow-lg shadow-sky-600/20">
-                <Link2 className="w-6 h-6 text-white" />
-              </div>
-              <div className="relative z-10">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-2xl font-black tracking-tight group-hover:text-sky-600 transition-colors">Slugmakr</h3>
-                  <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-sky-600 transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </div>
-                <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8">
-                  A clean and intuitive URL slug generator. Optimize titles into SEO-compliant paths with diacritic transliteration, stop-words filtering, and bulk processing.
-                </p>
-                <div className="flex items-center gap-4">
-                  <span className="px-3 py-1 bg-sky-50 text-sky-600 text-[10px] font-bold rounded-lg border border-sky-100">SEO PRO</span>
-                  <span className="px-3 py-1 bg-slate-50 text-slate-400 text-[10px] font-bold rounded-lg">V1.0</span>
-                </div>
-              </div>
-            </div>
-
-            <div 
-              onClick={() => navigate('/agentmanager')}
-              className="group bg-white p-8 rounded-[32px] border border-slate-200 hover:border-cyan-500/50 hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer relative overflow-hidden"
-            >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="w-14 h-14 bg-slate-900 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-500 shadow-lg shadow-cyan-500/20">
-                <Zap className="w-6 h-6 text-cyan-400" />
-              </div>
-              <div className="relative z-10">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-2xl font-black tracking-tight group-hover:text-cyan-600 transition-colors">Agent Manager</h3>
-                  <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-cyan-600 transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </div>
-                <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8">
-                  Intelligent human-in-the-loop orchestrator dashboard. Monitor logs, run diagnostics, and audit sandbox compilation tasks.
-                </p>
-                <div className="flex items-center gap-4">
-                  <span className="px-3 py-1 bg-cyan-50 text-cyan-600 text-[10px] font-bold rounded-lg border border-cyan-100">ORCHESTRATION</span>
-                  <span className="px-3 py-1 bg-slate-50 text-slate-400 text-[10px] font-bold rounded-lg">V1.1</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="group bg-white/40 p-8 rounded-[32px] border border-dashed border-slate-300 flex flex-col items-center justify-center text-center opacity-60">
-              <div className="w-14 h-14 bg-slate-100 text-slate-400 rounded-2xl flex items-center justify-center mb-6">
-                <Plus className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-400 mb-2">Next Brick</h3>
-              <p className="text-xs text-slate-400 font-medium max-w-[200px]">
-                Architecting more powerful utilities for your workflow.
+              <h2 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.95] mb-8 text-slate-900">
+                Universal Tools <br />
+                <span className="text-slate-300">Zero Complexity.</span>
+              </h2>
+              <p className="text-lg text-slate-500 font-medium leading-relaxed mb-12 max-w-xl">
+                A high-performance collection of developer utilities built for speed. 
+                Lightweight, portable, and refined for the modern web.
               </p>
+              <div className="flex flex-wrap items-center gap-4">
+                <button 
+                  onClick={() => document.getElementById('bricks-grid')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold shadow-xl shadow-slate-900/20 hover:shadow-2xl hover:bg-blue-600 hover:scale-[1.02] transition-all flex items-center gap-2 group"
+                >
+                  Explore Bricks <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+                <div className="px-6 py-4 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-slate-400 flex items-center gap-3">
+                  <Monitor className="w-4 h-4" /> v1.0 Stable
+                </div>
+              </div>
+            </div>
+
+            {/* Large Interactive Robot Column */}
+            <div className="relative h-[400px] lg:h-[700px] flex items-center justify-center overflow-visible group">
+              {/* Floating Meow Bubble */}
+              <div className="absolute top-[25%] left-[55%] bg-slate-900 px-6 py-3 rounded-2xl rounded-bl-none shadow-2xl z-30 animate-bounce transition-all transform hover:scale-110">
+                <span className="text-lg font-black text-white tracking-tight flex items-center gap-2">
+                  Meow! <span className="animate-pulse">🐾</span>
+                </span>
+                <div className="absolute -bottom-2 left-0 w-0 h-0 border-t-[10px] border-t-slate-900 border-r-[10px] border-r-transparent"></div>
+              </div>
+              
+              <DotLottiePlayer
+                src={`${BASE}cat-meow.json?v=${Date.now()}`}
+                autoplay
+                loop
+                style={{ width: '100%', height: '100%' }}
+              />
+            </div>
+          </section>
+
+          {/* Tools Grid */}
+          <section id="bricks-grid" className="relative z-20">
+            <div className="flex items-center justify-between mb-10">
+              <div className="flex items-center gap-4">
+                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-[0.3em] whitespace-nowrap">The Collection</h3>
+                <div className="hidden sm:block h-[1px] w-32 bg-slate-200/60" />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              
+              {/* Dynamically Rendered Scalable Tools */}
+              {toolsConfig.map((tool: ToolConfig) => (
+                <div 
+                  key={tool.id}
+                  onClick={() => navigate(tool.route)}
+                  className={`group bg-white p-8 rounded-[32px] border border-slate-200 transition-all duration-500 cursor-pointer relative overflow-hidden ${tool.groupHoverColor}`}
+                >
+                  <div className={`absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity ${tool.blurColor}`} />
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-500 overflow-hidden ${tool.iconContainerBg} ${tool.iconContainerShadow}`}>
+                    {tool.iconNode}
+                  </div>
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className={`text-2xl font-black tracking-tight transition-colors ${tool.textColorHover}`}>
+                        {tool.name}
+                      </h3>
+                      <ArrowUpRight className={`w-5 h-5 text-slate-300 transition-all group-hover:translate-x-1 group-hover:-translate-y-1 ${tool.textColorHover}`} />
+                    </div>
+                    <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8 h-16">
+                      {tool.description}
+                    </p>
+                    <div className="flex items-center gap-4">
+                      <span className={`px-3 py-1 text-[10px] font-bold rounded-lg border ${tool.tagBg} ${tool.tagTextColor} ${tool.tagBorder}`}>
+                        {tool.status}
+                      </span>
+                      <span className="px-3 py-1 bg-slate-50 text-slate-400 text-[10px] font-bold rounded-lg">
+                        {tool.version}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              <div className="group bg-white/40 p-8 rounded-[32px] border border-dashed border-slate-300 flex flex-col items-center justify-center text-center opacity-60 hover:opacity-100 transition-opacity">
+                <div className="w-14 h-14 bg-slate-100 text-slate-400 rounded-2xl flex items-center justify-center mb-6">
+                  <Plus className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-400 mb-2">Build With Us</h3>
+                <p className="text-xs text-slate-400 font-medium max-w-[200px] mb-4">
+                  Need a custom internal tool like these?
+                </p>
+                <a href="https://www.zerorapid.in" target="_blank" rel="noreferrer" className="text-xs font-bold text-blue-600 hover:underline">
+                  Contact ZeroRapid Agency
+                </a>
+              </div>
+
+            </div>
+          </section>
+        </main>
+
+        {/* Footer */}
+        <footer className="bg-white border-t border-slate-200 py-16 relative z-10">
+          <div className="max-w-7xl mx-auto px-6 flex flex-col items-center gap-8">
+            <div className="flex flex-col items-center gap-3">
+              <a 
+                href="https://www.zerorapid.in" 
+                target="_blank" 
+                rel="noreferrer" 
+                className="group flex flex-col sm:flex-row items-center gap-3 px-8 py-4 bg-slate-50 border border-slate-200 rounded-3xl hover:border-blue-500/30 hover:bg-white hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 text-center"
+              >
+                <span className="text-slate-500 font-medium transition-colors group-hover:text-slate-600">Need Custom Software? Built with ❤️ by</span>
+                <span className="text-slate-900 font-black tracking-tight text-xl italic group-hover:text-blue-600 transition-colors">ZeroRapid Agency</span>
+              </a>
+              <a 
+                href="mailto:hello@zerorapid.in" 
+                className="text-slate-400 hover:text-blue-600 transition-colors font-medium tracking-tight mt-2"
+              >
+                hello@zerorapid.in
+              </a>
+            </div>
+            <div className="flex items-center gap-3 opacity-30 select-none">
+              <div className="w-1.5 h-1.5 bg-slate-900 rounded-full" />
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-900">ZeroBricks Portfolio © {new Date().getFullYear()}</span>
+              <div className="w-1.5 h-1.5 bg-slate-900 rounded-full" />
             </div>
           </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-16 relative z-10">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col items-center gap-8">
-          <div className="flex flex-col items-center gap-3">
-            <a 
-              href="https://www.zerorapid.in" 
-              target="_blank" 
-              rel="noreferrer" 
-              className="group flex items-center gap-3 px-6 py-3 bg-slate-50 border border-slate-200 rounded-2xl hover:border-blue-500/30 hover:bg-white hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-500"
-            >
-              <span className="text-slate-500 font-medium transition-colors group-hover:text-slate-600">Built with ❤️ by</span>
-              <span className="text-slate-900 font-black tracking-tight text-lg italic">ZeroRapid</span>
-            </a>
-            <a 
-              href="mailto:hello@zerorapid.in" 
-              className="text-slate-400 hover:text-blue-600 transition-colors font-medium tracking-tight"
-            >
-              hello@zerorapid.in
-            </a>
-          </div>
-          <div className="flex items-center gap-3 opacity-30 select-none">
-            <div className="w-1.5 h-1.5 bg-slate-900 rounded-full" />
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-900">ZeroBricks Lab © {new Date().getFullYear()}</span>
-            <div className="w-1.5 h-1.5 bg-slate-900 rounded-full" />
-          </div>
-        </div>
-      </footer>
-    </div>
+        </footer>
+      </div>
     </>
   );
 }
