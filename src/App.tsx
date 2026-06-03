@@ -4,6 +4,7 @@ import CodeSlash from './tools/CodeSlash';
 import SVG2Code from './tools/svg2code/SVG2Code';
 import CoffeeNote from './tools/CoffeeNote';
 import Slugmakr from './tools/Slugmakr';
+import AgentManager from './tools/AgentManager';
 import { DotLottiePlayer } from '@dotlottie/react-player';
 import '@dotlottie/react-player/dist/index.css';
 import Rive, { Layout as RiveLayout, Fit, Alignment } from '@rive-app/react-canvas';
@@ -20,7 +21,7 @@ import {
   Link2
 } from 'lucide-react';
 
-type ToolType = 'dashboard' | 'codeslash' | 'svg2code' | 'coffeenote' | 'slugmakr';
+type ToolType = 'dashboard' | 'codeslash' | 'svg2code' | 'coffeenote' | 'slugmakr' | 'agentmanager';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -33,6 +34,7 @@ export default function App() {
         <Route path="/svg2code" element={<SVG2CodeWrapper />} />
         <Route path="/coffeenote" element={<CoffeeNoteWrapper />} />
         <Route path="/slugmakr" element={<SlugmakrWrapper />} />
+        <Route path="/agentmanager" element={<AgentManagerWrapper />} />
       </Routes>
     </Router>
   );
@@ -56,6 +58,11 @@ function CoffeeNoteWrapper() {
 function SlugmakrWrapper() {
   const navigate = useNavigate();
   return <Slugmakr onBack={() => navigate('/')} />;
+}
+
+function AgentManagerWrapper() {
+  const navigate = useNavigate();
+  return <AgentManager onBack={() => navigate('/')} />;
 }
 
 function Dashboard() {
@@ -236,6 +243,29 @@ function Dashboard() {
                 <div className="flex items-center gap-4">
                   <span className="px-3 py-1 bg-sky-50 text-sky-600 text-[10px] font-bold rounded-lg border border-sky-100">SEO PRO</span>
                   <span className="px-3 py-1 bg-slate-50 text-slate-400 text-[10px] font-bold rounded-lg">V1.0</span>
+                </div>
+              </div>
+            </div>
+
+            <div 
+              onClick={() => navigate('/agentmanager')}
+              className="group bg-white p-8 rounded-[32px] border border-slate-200 hover:border-cyan-500/50 hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-50 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="w-14 h-14 bg-slate-900 rounded-2xl flex items-center justify-center mb-10 group-hover:scale-110 transition-all duration-500 shadow-lg shadow-cyan-500/20">
+                <Zap className="w-6 h-6 text-cyan-400" />
+              </div>
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-2xl font-black tracking-tight group-hover:text-cyan-600 transition-colors">Agent Manager</h3>
+                  <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-cyan-600 transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </div>
+                <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8">
+                  Intelligent human-in-the-loop orchestrator dashboard. Monitor logs, run diagnostics, and audit sandbox compilation tasks.
+                </p>
+                <div className="flex items-center gap-4">
+                  <span className="px-3 py-1 bg-cyan-50 text-cyan-600 text-[10px] font-bold rounded-lg border border-cyan-100">ORCHESTRATION</span>
+                  <span className="px-3 py-1 bg-slate-50 text-slate-400 text-[10px] font-bold rounded-lg">V1.1</span>
                 </div>
               </div>
             </div>
