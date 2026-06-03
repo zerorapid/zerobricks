@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import CodeSlash from './tools/CodeSlash';
 import SVG2Code from './tools/svg2code/SVG2Code';
 import CoffeeNote from './tools/CoffeeNote';
@@ -27,48 +28,95 @@ const BASE = import.meta.env.BASE_URL;
 
 export default function App() {
   return (
-    <Router basename={import.meta.env.VITE_BASE_PATH || "/zerobricks"}>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/codeslash" element={<CodeSlashWrapper />} />
-        <Route path="/svg2code" element={<SVG2CodeWrapper />} />
-        <Route path="/coffeenote" element={<CoffeeNoteWrapper />} />
-        <Route path="/slugmakr" element={<SlugmakrWrapper />} />
-        <Route path="/agentmanager" element={<AgentManagerWrapper />} />
-      </Routes>
-    </Router>
+    <HelmetProvider>
+      <Router basename={import.meta.env.VITE_BASE_PATH || "/zerobricks"}>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/codeslash" element={<CodeSlashWrapper />} />
+          <Route path="/svg2code" element={<SVG2CodeWrapper />} />
+          <Route path="/coffeenote" element={<CoffeeNoteWrapper />} />
+          <Route path="/slugmakr" element={<SlugmakrWrapper />} />
+          <Route path="/agentmanager" element={<AgentManagerWrapper />} />
+        </Routes>
+      </Router>
+    </HelmetProvider>
   );
 }
 
 function CodeSlashWrapper() {
   const navigate = useNavigate();
-  return <CodeSlash onBack={() => navigate('/')} />;
+  return (
+    <>
+      <Helmet>
+        <title>CodeSlash - Live HTML/CSS/JS Editor | ZeroBricks</title>
+        <meta name="description" content="The ultimate prototyping editor. Write HTML/CSS/JS with a live preview and instant export capabilities." />
+      </Helmet>
+      <CodeSlash onBack={() => navigate('/')} />
+    </>
+  );
 }
 
 function SVG2CodeWrapper() {
   const navigate = useNavigate();
-  return <SVG2Code onBack={() => navigate('/')} />;
+  return (
+    <>
+      <Helmet>
+        <title>SVG2Code - Convert SVG to React | ZeroBricks</title>
+        <meta name="description" content="Convert SVG files to clean React components or optimized SVG code instantly." />
+      </Helmet>
+      <SVG2Code onBack={() => navigate('/')} />
+    </>
+  );
 }
 
 function CoffeeNoteWrapper() {
   const navigate = useNavigate();
-  return <CoffeeNote onBack={() => navigate('/')} />;
+  return (
+    <>
+      <Helmet>
+        <title>CoffeeNote - Minimalist Notepad | ZeroBricks</title>
+        <meta name="description" content="A minimalist writing space designed for focus. Take quick notes and export to PDF." />
+      </Helmet>
+      <CoffeeNote onBack={() => navigate('/')} />
+    </>
+  );
 }
 
 function SlugmakrWrapper() {
   const navigate = useNavigate();
-  return <Slugmakr onBack={() => navigate('/')} />;
+  return (
+    <>
+      <Helmet>
+        <title>Slugmakr - SEO URL Slug Generator | ZeroBricks</title>
+        <meta name="description" content="A clean and intuitive URL slug generator. Optimize titles into SEO-compliant paths." />
+      </Helmet>
+      <Slugmakr onBack={() => navigate('/')} />
+    </>
+  );
 }
 
 function AgentManagerWrapper() {
   const navigate = useNavigate();
-  return <AgentManager onBack={() => navigate('/')} />;
+  return (
+    <>
+      <Helmet>
+        <title>Agent Manager - Orchestrator | ZeroBricks</title>
+        <meta name="description" content="Intelligent human-in-the-loop orchestrator dashboard." />
+      </Helmet>
+      <AgentManager onBack={() => navigate('/')} />
+    </>
+  );
 }
 
 function Dashboard() {
   const navigate = useNavigate();
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-blue-600/10 selection:text-blue-600 antialiased overflow-x-hidden">
+    <>
+      <Helmet>
+        <title>ZeroBricks - Intelligent ToolSuite</title>
+        <meta name="description" content="A high-performance collection of developer utilities built for speed." />
+      </Helmet>
+      <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-blue-600/10 selection:text-blue-600 antialiased overflow-x-hidden">
       {/* Background Decor */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-100/50 rounded-full blur-[120px]" />
@@ -311,5 +359,6 @@ function Dashboard() {
         </div>
       </footer>
     </div>
+    </>
   );
 }
