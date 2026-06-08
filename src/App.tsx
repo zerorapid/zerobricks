@@ -60,8 +60,8 @@ function Dashboard() {
   return (
     <>
       <Helmet>
-        <title>ZeroBricks - Intelligent ToolSuite</title>
-        <meta name="description" content="A high-performance collection of developer utilities built for speed." />
+        <title>ZeroBricks | The Ultimate Developer & Designer ToolSuite</title>
+        <meta name="description" content="ZeroBricks is a premium portfolio of high-performance utilities by ZeroRapid. Built for coders, designers, and marketing professionals to accelerate workflows." />
       </Helmet>
       <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans selection:bg-blue-600/10 selection:text-blue-600 antialiased overflow-x-hidden">
         {/* Background Decor */}
