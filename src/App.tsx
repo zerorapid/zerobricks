@@ -5,10 +5,6 @@ import CodeSlash from './tools/CodeSlash';
 import SVG2Code from './tools/svg2code/SVG2Code';
 import CoffeeNote from './tools/CoffeeNote';
 import Slugmakr from './tools/Slugmakr';
-import BlogList from './pages/blog/BlogList';
-import BlogPost from './pages/blog/BlogPost';
-import BlogAdminList from './pages/admin/BlogAdminList';
-import BlogEditor from './pages/admin/BlogEditor';
 import { DotLottiePlayer } from '@dotlottie/react-player';
 import '@dotlottie/react-player/dist/index.css';
 import { 
@@ -32,11 +28,6 @@ export default function App() {
           <Route path="/svg2code" element={<ToolWrapper id="svg2code" Component={SVG2Code} />} />
           <Route path="/coffeenote" element={<ToolWrapper id="coffeenote" Component={CoffeeNote} />} />
           <Route path="/slugmakr" element={<ToolWrapper id="slugmakr" Component={Slugmakr} />} />
-          <Route path="/blog" element={<BlogList />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
-          <Route path="/admin/blogs" element={<BlogAdminList />} />
-          <Route path="/admin/blogs/new" element={<BlogEditor />} />
-          <Route path="/admin/blogs/edit/:id" element={<BlogEditor />} />
         </Routes>
       </Router>
     </HelmetProvider>
@@ -88,12 +79,6 @@ function Dashboard() {
             </div>
 
             <div className="flex items-center gap-4">
-              <span 
-                className="hidden sm:flex items-center gap-2 px-4 py-1.5 text-slate-500 hover:text-blue-600 font-bold text-sm cursor-pointer transition-colors"
-                onClick={() => navigate('/blog')}
-              >
-                Blog
-              </span>
               <a 
                 href="https://www.zerorapid.in" 
                 target="_blank" 
