@@ -133,30 +133,5 @@ export const toolsConfig: ToolConfig[] = [
         <p>Clean URLs are a critical ranking factor for Google and other search engines. Ensure your paths are perfectly optimized before publishing.</p>
       </div>
     )
-  },
-  {
-    id: 'agentmanager',
-    name: 'Agent Manager',
-    route: '/agentmanager',
-    description: 'Intelligent human-in-the-loop orchestrator dashboard. Monitor logs, run diagnostics, and audit sandbox compilation tasks.',
-    seoDescription: 'Intelligent human-in-the-loop orchestrator dashboard.',
-    status: 'ORCHESTRATION',
-    version: 'V1.1',
-    groupHoverColor: 'hover:border-cyan-500/50 hover:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)]',
-    blurColor: 'bg-cyan-50',
-    iconContainerBg: 'bg-slate-900',
-    iconContainerShadow: 'shadow-lg shadow-cyan-500/20',
-    iconNode: <Zap className="w-6 h-6 text-cyan-400" />,
-    textColorHover: 'group-hover:text-cyan-600',
-    tagBg: 'bg-cyan-50',
-    tagTextColor: 'text-cyan-600',
-    tagBorder: 'border-cyan-100',
-    seoH1: 'AI Agent Orchestrator & Dashboard',
-    seoH2: 'Human-in-the-loop AI Management',
-    seoContent: (
-      <div className="space-y-4 text-slate-600">
-        <p>Agent Manager provides a unified dashboard for overseeing autonomous AI agents. It allows developers to monitor real-time logs, audit task executions, and maintain human-in-the-loop oversight for critical operations.</p>
-      </div>
-    )
   }
 ];

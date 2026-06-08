@@ -5,7 +5,10 @@ import CodeSlash from './tools/CodeSlash';
 import SVG2Code from './tools/svg2code/SVG2Code';
 import CoffeeNote from './tools/CoffeeNote';
 import Slugmakr from './tools/Slugmakr';
-import AgentManager from './tools/AgentManager';
+import BlogList from './pages/blog/BlogList';
+import BlogPost from './pages/blog/BlogPost';
+import BlogAdminList from './pages/admin/BlogAdminList';
+import BlogEditor from './pages/admin/BlogEditor';
 import { DotLottiePlayer } from '@dotlottie/react-player';
 import '@dotlottie/react-player/dist/index.css';
 import { 
@@ -29,7 +32,11 @@ export default function App() {
           <Route path="/svg2code" element={<ToolWrapper id="svg2code" Component={SVG2Code} />} />
           <Route path="/coffeenote" element={<ToolWrapper id="coffeenote" Component={CoffeeNote} />} />
           <Route path="/slugmakr" element={<ToolWrapper id="slugmakr" Component={Slugmakr} />} />
-          <Route path="/agentmanager" element={<ToolWrapper id="agentmanager" Component={AgentManager} />} />
+          <Route path="/blog" element={<BlogList />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/admin/blogs" element={<BlogAdminList />} />
+          <Route path="/admin/blogs/new" element={<BlogEditor />} />
+          <Route path="/admin/blogs/edit/:id" element={<BlogEditor />} />
         </Routes>
       </Router>
     </HelmetProvider>
@@ -53,14 +60,6 @@ function ToolWrapper({ id, Component }: { id: string, Component: React.ElementTy
         <Component onBack={() => navigate('/')} />
       </div>
 
-      {/* SEO Content below the fold */}
-      <div className="max-w-4xl mx-auto py-24 px-6 w-full text-slate-900 border-t border-slate-200 mt-12 bg-white rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.03)] z-10 relative">
-        <h1 className="text-4xl font-black mb-10 tracking-tight">{config.seoH1}</h1>
-        <h2 className="text-2xl font-bold mb-6 text-slate-700">{config.seoH2}</h2>
-        <div className="prose prose-slate prose-lg max-w-none">
-          {config.seoContent}
-        </div>
-      </div>
     </div>
   );
 }
@@ -89,6 +88,12 @@ function Dashboard() {
             </div>
 
             <div className="flex items-center gap-4">
+              <span 
+                className="hidden sm:flex items-center gap-2 px-4 py-1.5 text-slate-500 hover:text-blue-600 font-bold text-sm cursor-pointer transition-colors"
+                onClick={() => navigate('/blog')}
+              >
+                Blog
+              </span>
               <a 
                 href="https://www.zerorapid.in" 
                 target="_blank" 
